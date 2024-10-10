@@ -1,0 +1,191 @@
+{% extends "customers-dash-base.html" %} {% block title %}Customer-Home{% endblock %}
+{% block body %}
+
+<div type="button" data-bs-toggle="modal" data-bs-target="#viewprofile" class="view-edit-profile">View / Edit Profile</div>
+
+<div class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="viewprofilelabel" aria-hidden="true">
+    <div class="modal-dialog"> 
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewprofilelable">View Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <h5 class="card-title">ARYA</h5>
+                <hr>
+                <p class="text-start mb-1"><strong>Username:</strong> aryadevji</p>
+                <p class="text-start mb-1"><strong>Email:</strong> av@gmail.com</p>
+                <p class="text-start mb-1"><strong>Address:</strong> asvuxbauxb</p>
+                <p class="text-start mb-1"><strong>Pincode:</strong> 4787</p>
+
+                <button class="btn btn-light" type="button">Close</button>
+                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editprofile" type="button">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="editprofilelable" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editprofilelabel">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="text" class="form-label">username</label>
+                        <input type="text" class="form-control" id="username" placeholder="username">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="address" placeholder="Enter your address">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pincode" class="form-label">Pin Code</label>
+                        <input type="number" class="form-control" id="pincode" placeholder="Enter your pincode">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-dark">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-5">
+    <h3 class="tabletitle">Looking For?</h3>
+
+    <div class="Services-available">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>SNo.</th>
+                    <th>Services</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr onclick="window.location.href='#service1';" style="cursor: pointer;">
+                    <td>1</td>
+                    <td>Service1</td>
+                </tr>
+                <tr onclick="window.location.href='#service2';" style="cursor: pointer;">
+                    <td>2</td>
+                    <td>Service2</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Gardening</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Painting</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Food</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Carpanter</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Catering</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>Cleaning</td>
+                </tr>
+            
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+<div class="container mt-5">
+    <h3 class="tabletitle">Service History</h3>
+
+    <div class="fixtable">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Service Name</th>
+                    <th>Professional Name</th>
+                    <th>Professional Email</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>John Doe</td>
+                    <td>john@example.com</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Jane Smith</td>
+                    <td>jane@example.com</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Mike Johnson</td>
+                    <td>mike@example.com</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Chris Brown</td>
+                    <td>chris@example.com</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Lisa White</td>
+                    <td>lisa@example.com</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Tom Hardy</td>
+                    <td>tom@example.com</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Emma Watson</td>
+                    <td>emma@example.com</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>David Miller</td>
+                    <td>david@example.com</td>
+                </tr>
+            
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

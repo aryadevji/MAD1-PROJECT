@@ -1,0 +1,32 @@
+.tabletitle{
+    font-weight: 600;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.fixtable {
+    max-height: 200px;
+    overflow-y: auto; /* for vertical scrolling */
+}
+
+thead th {
+    position: sticky; /*fixing the table head*/
+    top: 0;
+}
+
+
+
+.view-edit-profile{
+    display: flex;
+    float: right;
+    margin-top: 1%;
+    margin-right: 2%;
+    font-weight: 700;
+    border: 1px solid black;
+    padding-left: 3px;
+    padding-right: 3px;
+    border-radius: 10px;
+}
+
+.searchbox{
+    border: 1px solid black;
+}

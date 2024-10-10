@@ -1,0 +1,68 @@
+{% extends "reg-base.html" %} {% block title %}Register-Professional{% endblock %}
+{% block body %}
+        <div class="content">
+            <div class="pbigrect">
+                <div id="p-register-title">
+                    NEW SERVICE PROFESSIONAL
+                </div>
+                <form class="pform" method="POST">
+                    <div class="mb-3 COL">
+                        <label for="profname" class="form-label plable">Full Name</label>
+                        <input type="text" class="form-controlsm pinput" placeholder="eg. Raja Dry-Cleaners" id="profname" name="profname" required>
+                      </div>
+
+                      <div class="mb-3 COL">
+                        <label for="profemail" class="form-label plable">E-Mail Address</label>
+                        <input type="email" class="form-controlsm pinput" placeholder="eg. ambika@gmail.com" id="profemail" aria-describedby="emailHelp" name="profemail" required>
+                      </div>
+                    <div class="mb-3 COL">
+                      <label for="profusername" class="form-label plable">Username</label>
+                      <input type="text" class="form-controlsm pinput" aria-label="Username" placeholder="eg. ambika1996" id="profusername" aria-describedby="basic-addon1" name="profusername" required>
+                    </div>
+                    <div class="mb-3 COL">
+                        <label for="profpassword" class="form-label plable">Create Password</label>
+                        <input type="password" id="profpassword" class="form-controlsm pinput" placeholder="********" aria-describedby="passwordHelpBlock" name="profpassword" required>
+                    </div>
+
+                    <div class="mb-3 COL">
+                      <label for="servicename" class="form-label plable">Service Name</label>
+                      <select class="form-select form-select mb-3" aria-label="Large select example" id="servicename" name="servicename" required>
+                        <option selected>Select Available Services</option>
+                        <option value="cleaning">Cleaning</option>
+                        <option value="plumbing">Plumbing</option>
+                        <option value="electrical">Electrical</option>
+                        <option value="gardening">Gardening</option>
+                        <option value="cooking">Cooking</option>
+                        <option value="pestcontrol">PestControl</option>
+                        <option value="laundry">Laundry</option>
+                    </select>
+                    </div>
+                    <div class="mb-3 COL">
+                      <label for="experience" class="form-label plable"> Experience (in Years)</label>
+                      <input type="number" placeholder="eg. 5, 6" class="form-controlsm pinput" id="experience" name="experience" required>
+                    </div>
+
+                    <div class="mb-3 COL">
+                      <label for="formFile" class="form-label plable">Attach Documents: (single PDF)</label>
+                      <input class="form-controlsm pinput" type="file" id="formFile" accept=".pdf" name='file'>
+                    </div>
+
+                      <div class="mb-3 COL">
+                        <label for="profadd" class="form-label plable"> Address :</label>
+                        <input type="text" class="form-controlsm pinput" placeholder="eg. 237/C 19th Steet Vijay Nagar New Delhi" id="profadd" name="profadd" required>
+                      </div>
+
+                      <div class="mb-3 COL">
+                        <label for="profpincode" class="form-label plable"> Pin Code :</label>
+                        <input type="number" placeholder="eg. 5, 6" class="form-controlsm pinput" id="profpincode" name="profpincode" required>
+                      </div>
+                      
+
+
+                    <button type="submit" class="btn btn-dark p-register-button">REGISTER</button>
+                </form>
+            </div>
+        </div>
+</body>
+</html>
+{% endblock %}
