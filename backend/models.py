@@ -10,15 +10,15 @@ class Users(db.Model):
 
 
 class Professional(db.Model):
-    __tablename__="Professional"
+    __tablename__="professional"
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(50),nullable=False)
     email=db.Column(db.String(50),unique=True,nullable=False)
     pincode=db.Column(db.Integer,nullable=False)
     address=db.Column(db.String(300),nullable=False)
     service=db.Column(db.String(50),nullable=False)
-    exprience=db.Column(db.Integer,nullable=False)
-    attachement=db.Column(db.String(300),nullable=True)
+    experience=db.Column(db.Integer,nullable=False)
+    attachment=db.Column(db.String(300),nullable=True)
     isactive=db.Column(db.Boolean,nullable=False,default=False)
 
 

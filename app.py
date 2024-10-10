@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from backend.models import *
 
@@ -8,8 +9,11 @@ def create_app():
     service_app.debug = True
     service_app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///household.sqlite3"
     service_app.secret_key='abdvwqeihdvc'
-    uploader = 'uploaded_files'
-    service_app.config['UPLOAD_FOLDER'] = uploader
+    UPLOAD_FOLDER = os.path.join(os.getcwd(),'static', 'pdfs')  # Folder where uploaded pdfs will be stored
+    service_app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
     service_app.app_context().push() #if app access by other modules
     db.init_app(service_app)
     print("MAD1 PROJECT STARTED.......")

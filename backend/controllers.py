@@ -43,50 +43,117 @@ def register():
 
 @app.route('/register-customer',methods=["GET","POST"])
 def register_customer():
-    # if request.method=="POST":
+    if request.method == "POST":
+        try:
+            full_name = request.form.get("customername")
+            cust_email = request.form.get("customeremail")
+            user_name = request.form.get("customerusername")
+            password = request.form.get("customerpassword")
+            cust_add = request.form.get("customeraddress")
+            cust_pincode = request.form.get("customerpincode")
+
+            new_customer = Customer(
+                name=full_name,
+                email=cust_email,
+                pincode=cust_pincode,
+                address=cust_add,
+            )
+
+            prof_user = Users(
+                username=user_name,
+                passhash=generate_password_hash(password, method='pbkdf2:sha256'),
+                role=1
+            )
+
+            db.session.add(new_customer)
+            db.session.add(prof_user)
+            db.session.commit()
+
+            # Registration success, redirect to login page with success message
+            flash("Registration successful!", category="Success")
+            return render_template("login.html")
+
+        except Exception as e:
+            db.session.rollback()  # Rollingback  the changes, if something goes wrong
+            flash(f"Registration failed: {str(e)}", category="Failed")
+            return render_template('register-customer.html')  #  Back to Registration
+
 
     return render_template('register-customer.html')
 
-@app.route('/register-professional',methods=["GET","POST"])
+
+
+# PROFESSIONAL REGISTERATION
+
+@app.route('/register-professional', methods=["GET", "POST"])
 def register_professional():
-    if request.method=="POST":
-        full_name=request.form.get("profname")
-        prof_email=request.form.get("profemail")
-        user_name=request.form.get("profusername")
-        password=request.form.get("profpassword")
-        service_name=request.form.get("servicename")
-        prof_exprience=request.form.get("exprience")
-        prof_add=request.form.get("profadd")
-        prof_pincode=request.form.get("profpincode")
+    if request.method == "POST":
+        try:
+            full_name = request.form.get("profname")
+            prof_email = request.form.get("profemail")
+            user_name = request.form.get("profusername")
+            password = request.form.get("profpassword")
+            service_name = request.form.get("servicename")
+            prof_experience = request.form.get("experience")
+            prof_add = request.form.get("profadd")
+            prof_pincode = request.form.get("profpincode")
 
-        if 'file' not in request.files:
-            flash("No file part", category="error")
-            return redirect(request.url)
+            # Checking if a file is uploaded or not
 
-        file = request.files['file']
+            if 'file' not in request.files:
+                flash("No file uploaded", category="Failed")
+                return redirect(request.url)
 
-        # If the user does not select a file, browser submits an empty part without a filename
-        if file.filename == '':
-            flash("No selected file", category="error")
-            return redirect(request.url)
+            file = request.files['file']
 
-        # Directly check the file extension here
-        if file.filename.endswith('.pdf'):
-            # Secure the filename
-            filename = secure_filename(file.filename)
-            
-            # Define the path to save the file
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            
-            # Save the file to the specified directory
-            file.save(file_path)
-            
-            # Save the file path to the database
-            new_professional = Professional(name=full_name, email=prof_email,pincode=prof_pincode,address=prof_add,service=service_name,exprience=prof_exprience,attachment=file_path)
-            prof_user = Users(username=user_name,passhash=generate_password_hash(password, method='pbkdf2:sha256'),role=2)
+            # If the user does not select a file, browser submits an empty part without a filename
+            if file.filename == '':
+                flash("No file selected", category="Failed")
+                return redirect(request.url)
+
+            # Directly check the file extension
+            if not file.filename.endswith('.pdf'):
+                flash("Invalid file type. Please upload a PDF.", category="Failed")
+                return redirect(request.url)
+
+            # Save professional data first to generate ID
+            new_professional = Professional(
+                name=full_name,
+                email=prof_email,
+                pincode=prof_pincode,
+                address=prof_add,
+                service=service_name,
+                experience=prof_experience
+            )
+
             db.session.add(new_professional)
+            db.session.flush()  # This makes the professional object get an ID without committing yet
+
+            professional_id = new_professional.id
+            filename = f"pro_{professional_id}_{secure_filename(file.filename)}"  # Adding ID to filename
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+            file.save(file_path)
+
+            new_professional.attachment = file_path
+
+            prof_user = Users(
+                username=user_name,
+                passhash=generate_password_hash(password, method='pbkdf2:sha256'),
+                role=2 
+            )
+
+            db.session.add(prof_user)
             db.session.commit()
 
+            # Registration success, redirect to login page with success message
+            flash("Registration successful!", category="Success")
+            return render_template("login.html")
+
+        except Exception as e:
+            db.session.rollback()  # Rollingback  the changes, if something goes wrong
+            flash(f"Registration failed: {str(e)}", category="Failed")
+            return render_template('register-professional.html')  #  Back to Registration
 
     return render_template('register-professional.html')
 
