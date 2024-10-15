@@ -10,8 +10,11 @@
 #3 Install all the dependencies in your virtual environment or directly into your machine by executing below command:
     "pip3 install -r requirements.txt"
 
-#4  Start the project by executing command:
+#4 Initialize the database by executing command:
+    "python init_db.py"
+
+#5  Start the project by executing command:
     "python app.py"
 
-#5  Now you can run the project on your local server http://127.0.0.1:5000
+#6  Now you can run the project on your local server http://127.0.0.1:5000
 

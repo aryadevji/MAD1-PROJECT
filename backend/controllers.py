@@ -1,4 +1,5 @@
 from flask import Flask,render_template, current_app as app, request, flash, redirect, session
+from  functools import wraps
 import os
 from .models import *
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -123,12 +124,24 @@ def register_professional():
     return render_template('register-professional.html')
 
 
+# DEFINING DECORATERs
+#auth required decorater
+def auth_requ(funct):
+    @wraps(funct)
+    def inner_funct(*args ,**kwargs):
+        if session.get('user_id'):
+            return funct(*args,**kwargs)
+        else:
+            flash("Please Login to Continue!", category="Failed")
+            return redirect('/login')
+    return inner_funct
+
+
 #LOGIN USERS
 
 @app.route('/')
 @app.route('/login',methods=["GET","POST"])
 def index():
-    from .models import Users
     if request.method=="POST":
         user_name=request.form.get("loginusername")
         password=request.form.get("loginpassword")
@@ -165,59 +178,56 @@ def register():
     return render_template('register.html')
 
 
+# PROFESSIONAL ROUTES
+
 @app.route('/professional-home',methods=["GET","POST"])
+@auth_requ
 def professional_home():
-    if session.get("user_id"):
         return render_template('professional-home.html')
-    else:
-        flash("Please Login to Continue!", category="Failed")
-        return redirect('/login')
+
 
 @app.route('/professional-search',methods=["GET","POST"])
+@auth_requ
 def professional_search():
-    if session.get("user_id"):
         return render_template('professional-search.html')
-    else:
-        flash("Please Login to Continue!", category="Failed")
-        return redirect('/login')
+
 
 @app.route('/professional-summary',methods=["GET","POST"])
+@auth_requ
 def professional_summary():
-    if session.get("user_id"):
         return render_template('professional-summary.html')
-    else:
-        flash("Please Login to Continue!", category="Failed")
-        return redirect('/login')
 
 
 #CUSTOMER ROUTES
 
 @app.route('/customer-home',methods=["GET","POST"])
+@auth_requ
 def customer_home():
-    if "user_id" in session:
         return render_template('customer-home.html')
-    else:
-        flash("Please Login to Continue!", category="Failed")
-        return render_template('login.html')
+
 
 @app.route('/customer-search',methods=["GET","POST"])
+@auth_requ
 def customer_search():
-    if "user_id" in session:
         return render_template('customer-search.html')
-    else:
-        flash("Please Login to Continue!", category="Failed")
-        return render_template('login.html')
+
 
 @app.route('/customer-summary',methods=["GET","POST"])
+@auth_requ
 def customer_summary():
-    if "user_id" in session:
         return render_template('customer-summary.html')
-    else:
-        flash("Please Login to Continue!", category="Failed")
-        return render_template('login.html')
     
 
+
+
+
+
+
+
+#LOGOUT USER
+
 @app.route('/logout', methods=['POST'])
+@auth_requ
 def logout():
     session.clear()
     flash("You are Logged Out", category="Success")
