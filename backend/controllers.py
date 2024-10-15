@@ -1,45 +1,10 @@
-from flask import Flask,render_template, current_app as app, request, flash, redirect
+from flask import Flask,render_template, current_app as app, request, flash, redirect, session
 import os
 from .models import *
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 
-
-@app.route('/')
-@app.route('/login',methods=["GET","POST"])
-def index():
-    if request.method=="POST":
-        user_name=request.form.get("loginusername")
-        password=request.form.get("loginpassword")
-        urole=request.form.get("loginrole")
-
-        if not user_name or not password or not urole:
-            flash("Please fill out all fields", category="Failed")
-            return render_template('login.html')
-        
-        usr = Users.query.filter_by(username=user_name, role=urole).first()
-        if usr is None:
-            flash("User does not exists", category="Failed")  #credintals not empty
-            return render_template('login.html')
-
-        if not check_password_hash(usr.passhash, password):
-            flash("Invalid Password", category="Failed")  #password verification
-            return render_template('login.html')
-
-        if usr.role == 0:                                #login based on role
-            return render_template("admin-home.html")
-        elif usr.role == 1:
-            return render_template("customer-home.html")
-        elif usr.role == 2:
-            return render_template("professional-home.html")
-            
-         
-    return render_template('login.html')
-
-
-@app.route('/register')
-def register():
-    return render_template('register.html')
+# CUSTOMERS REGISTERATION 
 
 @app.route('/register-customer',methods=["GET","POST"])
 def register_customer():
@@ -158,41 +123,102 @@ def register_professional():
     return render_template('register-professional.html')
 
 
+#LOGIN USERS
+
+@app.route('/')
+@app.route('/login',methods=["GET","POST"])
+def index():
+    from .models import Users
+    if request.method=="POST":
+        user_name=request.form.get("loginusername")
+        password=request.form.get("loginpassword")
+        urole=request.form.get("loginrole")
+
+        if not user_name or not password or not urole:
+            flash("Please fill out all fields", category="Failed")
+            return render_template('login.html')
+        
+        usr = Users.query.filter_by(username=user_name, role=urole).first()
+        if usr is None:
+            flash("User does not exists", category="Failed")  #credintals not empty
+            return render_template('login.html')
+
+        if not check_password_hash(usr.passhash, password):
+            flash("Invalid Password", category="Failed")  #password verification
+            return render_template('login.html')
+            
+        session['user_id'] = usr.id
+        flash("Login Success!", category="Success")
+
+        if usr.role == 0:                                #login based on roles
+            return render_template("admin-home.html")
+        elif usr.role == 1:
+            return render_template("customer-home.html")
+        elif usr.role == 2:
+            return render_template("professional-home.html")
+        
+    return render_template('login.html')
+
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+
 @app.route('/professional-home',methods=["GET","POST"])
 def professional_home():
-    # if request.method=="POST":
-        #do someting
-    return render_template('professional-home.html')
+    if session.get("user_id"):
+        return render_template('professional-home.html')
+    else:
+        flash("Please Login to Continue!", category="Failed")
+        return redirect('/login')
 
 @app.route('/professional-search',methods=["GET","POST"])
 def professional_search():
-    # if request.method=="POST":
-        #do someting
-    return render_template('professional-search.html')
+    if session.get("user_id"):
+        return render_template('professional-search.html')
+    else:
+        flash("Please Login to Continue!", category="Failed")
+        return redirect('/login')
 
 @app.route('/professional-summary',methods=["GET","POST"])
 def professional_summary():
-    # if request.method=="POST":
-        #do someting
-    return render_template('professional-summary.html')
+    if session.get("user_id"):
+        return render_template('professional-summary.html')
+    else:
+        flash("Please Login to Continue!", category="Failed")
+        return redirect('/login')
 
 
 #CUSTOMER ROUTES
 
 @app.route('/customer-home',methods=["GET","POST"])
 def customer_home():
-    # if request.method=="POST":
-        #do someting
-    return render_template('customer-home.html')
+    if "user_id" in session:
+        return render_template('customer-home.html')
+    else:
+        flash("Please Login to Continue!", category="Failed")
+        return render_template('login.html')
 
 @app.route('/customer-search',methods=["GET","POST"])
 def customer_search():
-    # if request.method=="POST":
-        #do someting
-    return render_template('customer-search.html')
+    if "user_id" in session:
+        return render_template('customer-search.html')
+    else:
+        flash("Please Login to Continue!", category="Failed")
+        return render_template('login.html')
 
 @app.route('/customer-summary',methods=["GET","POST"])
 def customer_summary():
-    # if request.method=="POST":
-        #do someting
-    return render_template('customer-summary.html')
+    if "user_id" in session:
+        return render_template('customer-summary.html')
+    else:
+        flash("Please Login to Continue!", category="Failed")
+        return render_template('login.html')
+    
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.clear()
+    flash("You are Logged Out", category="Success")
+    return redirect('/login')

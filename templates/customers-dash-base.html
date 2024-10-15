@@ -29,12 +29,38 @@
                   <a class="nav-link" href="/customer-summary" style="color:black">Summary</a>
                 </li>
                 <li class="nav-item" style="margin-left: 1030px;">
-                  <button class="nav-link" style="background-color: black; color:white; font-weight:600; border:1px solid black;border-radius: 15px">LogOut</button>
+                  <form action="/logout" method="POST" style="display: inline;">
+                    <button class="nav-link" type="submit" style="background-color: black; color: white; font-weight: 600; border: 1px solid black; border-radius: 15px">
+                        LogOut
+                    </button>
+                </form>
                 </li>
               </ul>
             </div>
           </div>
         </nav>
   </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %} 
+    {% if messages %} 
+        {% for category, message in messages %} 
+        {% if category =='Failed' %}
+        <div class="alert alert-danger alert-dismissible fade show alert-mes" role="alert">
+            <strong>Failed!</strong> {{ message }}
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% else %}
+        <div class="alert alert-success alert-dismissible fade show alert-mes" role="alert">
+            <strong>Success!</strong> {{ message }}
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% endif %} 
+        {% endfor %} 
+    {% endif %} 
+    {% endwith %}
 
   {% block body %} {% endblock %}
