@@ -23,7 +23,7 @@ app=create_app()
 from backend.auth import *
 from backend.professional_routes import *
 from backend.customer_routes import *
-
+from backend.admin_routes import *
 
 if __name__ == '__main__':
     app.run()
