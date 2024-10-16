@@ -11,6 +11,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
+                <div class="profile-pic">
+                    <img src="https://api.dicebear.com/9.x/lorelei/svg/seed={{user.username}}" style="height: 150px; width: 150px">
+                </div>
+
                 <h5 class="card-title">{{ customer.name}}</h5>
                 <hr>
                 <p class="text-start mb-1"><strong>Username:</strong>  {{ user.username}}</p>
@@ -35,26 +39,32 @@
             </div>
             <div class="modal-body">
                 <form action="{{ url_for('edit_customer_profile') }}" method="post">
+
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" name="name" id="name" placeholder="Update your name" value="{{ customer.name }}">
                     </div>
+
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
                         <input type="email" class="form-control" name="email" id="email" placeholder="Update your email" value="{{ customer.email }}">
                     </div>
+
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" class="form-control" name="username" id="username" placeholder="Update your username" value="{{ user.username }}">
                     </div>
+
                     <div class="mb-3">
                         <label for="address" class="form-label">Address</label>
                         <input type="text" class="form-control" name="address" id="address" placeholder="Update your address" value="{{ customer.address }}">
                     </div>
+
                     <div class="mb-3">
                         <label for="pincode" class="form-label">Pin Code</label>
                         <input type="number" class="form-control" name="pincode" id="pincode" placeholder="Update your pincode" value="{{ customer.pincode }}">
                     </div>
+                    
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-dark">UPDATE</button>

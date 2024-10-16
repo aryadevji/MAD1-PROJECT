@@ -1,0 +1,84 @@
+from flask import render_template, current_app as app, request, flash, redirect, session
+from .models import *
+from .auth import auth_requ
+
+# PROFESSIONAL ROUTES
+
+@app.route('/professional-home',methods=["GET","POST"])
+@auth_requ
+def professional_home():
+    user_det = Users.query.get(session.get('user_id'))
+    pro_det = Professional.query.filter_by(user_id=session['user_id']).first()
+    return render_template('professional-home.html', user=user_det, professional=pro_det)
+
+
+@app.route('/professional-search',methods=["GET","POST"])
+@auth_requ
+def professional_search():
+        return render_template('professional-search.html')
+
+
+@app.route('/professional-summary',methods=["GET","POST"])
+@auth_requ
+def professional_summary():
+        return render_template('professional-summary.html')
+
+
+
+# Edit Profiles
+# For Professionals
+
+@app.route('/edit-professional-profile', methods=['POST'])
+@auth_requ
+def edit_professional_profile():
+    new_name=request.form.get('name')
+    new_username=request.form.get('username')
+    new_email=request.form.get('email')
+    new_address=request.form.get('address')
+    new_pincode=request.form.get('pincode')
+
+
+    user_det = Users.query.get(session.get('user_id'))
+    pro_det = Professional.query.filter_by(user_id=session['user_id']).first()
+
+    if new_username and new_username != user_det.username:
+        existing_username = Users.query.filter_by(username=new_username).first()
+        if existing_username:
+            flash("Username Already Exists!", category="Failed")
+            return redirect('/professional-home')
+
+    if new_email and new_email != pro_det.email:
+        existing_email = Customer.query.filter_by(email=new_email).first()
+        if existing_email:
+            flash("Email Already Exists!", category="Failed")
+            return redirect('/customer-home') 
+
+    updated= False
+    if new_name:
+        pro_det.name = new_name
+        updated= True
+        flash("Name Update Success!")
+
+    if new_email:
+        pro_det.email = new_email
+        updated= True
+        flash("Email Update Success!")
+
+    if new_username:
+        user_det.username = new_username
+        updated= True
+        flash("Username Update Success!")
+
+    if new_address:
+        pro_det.address = new_address
+        updated = True
+        flash("Address Update Success!")
+
+    if new_pincode:
+        pro_det.pincode = new_pincode
+        updated = True
+        flash("Pincode Update Success!")
+
+    if updated:
+        db.session.commit()
+    return redirect('/professional-home')

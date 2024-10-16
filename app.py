@@ -20,7 +20,9 @@ def create_app():
     return service_app
 
 app=create_app()
-from backend.controllers import *
+from backend.auth import *
+from backend.professional_routes import *
+from backend.customer_routes import *
 
 
 if __name__ == '__main__':
