@@ -26,7 +26,7 @@
 </div>
 
 
-<div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="editprofilelable" aria-hidden="true">
+<div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="editprofilelabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -34,39 +34,32 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="{{ url_for('edit_customer_profile') }}" method="post">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Update your name" value="{{ customer.name }}">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Update your email" value="{{ customer.email }}">
                     </div>
-
                     <div class="mb-3">
-                        <label for="text" class="form-label">username</label>
-                        <input type="text" class="form-control" id="username" placeholder="username">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Update your username" value="{{ user.username }}">
                     </div>
-
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter your password">
-                    </div>
-
                     <div class="mb-3">
                         <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" placeholder="Enter your address">
+                        <input type="text" class="form-control" name="address" id="address" placeholder="Update your address" value="{{ customer.address }}">
                     </div>
                     <div class="mb-3">
                         <label for="pincode" class="form-label">Pin Code</label>
-                        <input type="number" class="form-control" id="pincode" placeholder="Enter your pincode">
+                        <input type="number" class="form-control" name="pincode" id="pincode" placeholder="Update your pincode" value="{{ customer.pincode }}">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-dark">UPDATE</button>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-dark">Submit</button>
             </div>
         </div>
     </div>

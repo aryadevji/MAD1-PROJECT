@@ -172,9 +172,9 @@ def index():
         if usr.role == 0:                                #login based on roles
             return render_template("admin-home.html")
         elif usr.role == 1:
-            return render_template("customer-home.html")
+            return redirect('/customer-home')
         elif usr.role == 2:
-            return render_template("professional-home.html")
+            return redirect('professional-home')
         
     return render_template('login.html')
 
@@ -229,7 +229,125 @@ def customer_summary():
     
 
 
+# Edit Profiles
 
+# For Customers
+
+@app.route('/edit-customer-profile', methods=['POST'])
+@auth_requ
+def edit_customer_profile():
+    new_name=request.form.get('name')
+    new_username=request.form.get('username')
+    new_email=request.form.get('email')
+    new_address=request.form.get('address')
+    new_pincode=request.form.get('pincode')
+
+    user_det = Users.query.get(session.get('user_id'))
+    cust_det = Customer.query.filter_by(user_id=session['user_id']).first()
+
+    # Check for existing username and email
+    if new_username and new_username != user_det.username:
+        existing_username = Users.query.filter_by(username=new_username).first()
+        if existing_username:
+            flash("Username Already Exists!", category="Failed")
+            return redirect('/customer-home')  # Redirect to the appropriate page
+
+    if new_email and new_email != cust_det.email:
+        existing_email = Customer.query.filter_by(email=new_email).first()
+        if existing_email:
+            flash("Email Already Exists!", category="Failed")
+            return redirect('/customer-home')  # Redirect to the appropriate page
+
+    # Updated profile fields
+    updated= False
+    if new_name:
+        cust_det.name = new_name
+        updated= True
+        flash("Name Update Success!")
+
+    if new_email:
+        cust_det.email = new_email
+        updated= True
+        flash("Email Update Success!")
+
+    if new_username:
+        user_det.username = new_username
+        updated= True
+        flash("Username Update Success!")
+
+    if new_address:
+        cust_det.address = new_address
+        updated = True
+        flash("Address Update Success!")
+
+    if new_pincode:
+        cust_det.pincode = new_pincode
+        updated = True
+        flash("Pincode Update Success!")
+
+    # Commit changes if any field was updated
+    if updated:
+        db.session.commit()
+
+    return redirect('/customer-home')  # Redirect after updating
+
+
+# For Professionals
+
+@app.route('/edit-professional-profile', methods=['POST'])
+@auth_requ
+def edit_professional_profile():
+    new_name=request.form.get('name')
+    new_username=request.form.get('username')
+    new_email=request.form.get('email')
+    new_address=request.form.get('address')
+    new_pincode=request.form.get('pincode')
+
+
+    user_det = Users.query.get(session.get('user_id'))
+    pro_det = Professional.query.filter_by(user_id=session['user_id']).first()
+
+    if new_username and new_username != user_det.username:
+        existing_username = Users.query.filter_by(username=new_username).first()
+        if existing_username:
+            flash("Username Already Exists!", category="Failed")
+            return redirect('/professional-home')
+
+    if new_email and new_email != pro_det.email:
+        existing_email = Customer.query.filter_by(email=new_email).first()
+        if existing_email:
+            flash("Email Already Exists!", category="Failed")
+            return redirect('/customer-home') 
+
+    updated= False
+    if new_name:
+        pro_det.name = new_name
+        updated= True
+        flash("Name Update Success!")
+
+    if new_email:
+        pro_det.email = new_email
+        updated= True
+        flash("Email Update Success!")
+
+    if new_username:
+        user_det.username = new_username
+        updated= True
+        flash("Username Update Success!")
+
+    if new_address:
+        pro_det.address = new_address
+        updated = True
+        flash("Address Update Success!")
+
+    if new_pincode:
+        pro_det.pincode = new_pincode
+        updated = True
+        flash("Pincode Update Success!")
+
+    if updated:
+        db.session.commit()
+    return redirect('/professional-home')
 
 
 
