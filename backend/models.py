@@ -7,6 +7,8 @@ class Users(db.Model):
     username=db.Column(db.String(50),unique=True,nullable=False)
     passhash=db.Column(db.String(256),nullable=False)
     role=db.Column(db.Integer,nullable=False)
+    professionals = db.relationship('Professional', backref='user', lazy=True)
+    customers = db.relationship('Customer', backref='user', lazy=True)
 
 
 class Professional(db.Model):
@@ -20,6 +22,7 @@ class Professional(db.Model):
     experience=db.Column(db.Integer,nullable=False)
     attachment=db.Column(db.String(300),nullable=True)
     isactive=db.Column(db.Boolean,nullable=False,default=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
 
 class Services(db.Model):
@@ -40,6 +43,7 @@ class Customer(db.Model):
     email=db.Column(db.String(50),unique=True,nullable=False)
     pincode=db.Column(db.Integer,nullable=False)
     address=db.Column(db.String(300),nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
 
 

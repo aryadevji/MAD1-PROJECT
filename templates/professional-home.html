@@ -12,12 +12,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <h5 class="card-title">ARYA</h5>
+                <h5 class="card-title">{{professional.name}}</h5>
                 <hr>
-                <p class="text-start mb-1"><strong>Username:</strong> aryadevji</p>
-                <p class="text-start mb-1"><strong>Email:</strong> av@gmail.com</p>
-                <p class="text-start mb-1"><strong>Address:</strong> asvuxbauxb</p>
-                <p class="text-start mb-1"><strong>Pincode:</strong> 4787</p>
+                <p class="text-start mb-1"><strong>Username:</strong> {{ user.username }}</p>
+                <p class="text-start mb-1"><strong>Email:</strong> {{ professional.email }}</p>
+                <p class="text-start mb-1"><strong>Address:</strong>{{ professional.address }}</p>
+                <p class="text-start mb-1"><strong>Pincode:</strong> {{ professional.pincode }}</p>
 
                 <button class="btn btn-light" type="button">Close</button>
                 <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editprofile" type="button">Edit</button>
@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="text" class="form-label">username</label>
+                        <label for="username" class="form-label">username</label>
                         <input type="text" class="form-control" id="username" placeholder="username">
                     </div>
 
@@ -94,6 +94,9 @@
                     <td>1</td>
                     <td>John Doe</td>
                     <td>john@example.com</td>
+                    <td>11235</td>
+                    <td><button type="button" class="btn btn-outline-success">Accept </button> <button type="button" class="btn btn-outline-danger">Reject</button></td>
+                    
                 </tr>
                 <tr>
                     <td>2</td>

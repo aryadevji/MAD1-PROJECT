@@ -18,21 +18,24 @@ def register_customer():
             cust_add = request.form.get("customeraddress")
             cust_pincode = request.form.get("customerpincode")
 
-            new_customer = Customer(
-                name=full_name,
-                email=cust_email,
-                pincode=cust_pincode,
-                address=cust_add,
-            )
-
-            prof_user = Users(
+            cust_user = Users(
                 username=user_name,
                 passhash=generate_password_hash(password, method='pbkdf2:sha256'),
                 role=1
             )
 
+            db.session.add(cust_user)
+            db.session.flush() 
+
+            new_customer = Customer(
+                name=full_name,
+                email=cust_email,
+                pincode=cust_pincode,
+                address=cust_add,
+                user_id=cust_user.id
+            )
+
             db.session.add(new_customer)
-            db.session.add(prof_user)
             db.session.commit()
 
             # Registration success, redirect to login page with success message
@@ -82,35 +85,38 @@ def register_professional():
                 flash("Invalid file type. Please upload a PDF.", category="Failed")
                 return redirect(request.url)
 
-            # Save professional data first to generate ID
+                        # Create the user object first
+            prof_user = Users(
+                username=user_name,
+                passhash=generate_password_hash(password, method='pbkdf2:sha256'),
+                role=2 
+            )
+            db.session.add(prof_user)
+            db.session.flush()  # Flush to get the ID before committing
+
+            # Now, create the professional object
             new_professional = Professional(
                 name=full_name,
                 email=prof_email,
                 pincode=prof_pincode,
                 address=prof_add,
                 service=service_name,
-                experience=prof_experience
+                experience=prof_experience,
+                user_id=prof_user.id  # Use the flushed ID from prof_user
             )
 
             db.session.add(new_professional)
-            db.session.flush()  # This makes the professional object get an ID without committing yet
+            db.session.flush()  # Flush to get the professional ID
 
+            # Save the file with a unique name
             professional_id = new_professional.id
-            filename = f"pro_{professional_id}_{secure_filename(file.filename)}"  # Adding ID to filename
+            filename = f"pro_{professional_id}_{secure_filename(file.filename)}"
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-
             file.save(file_path)
 
-            new_professional.attachment = file_path
+            new_professional.attachment = file_path  # Assign the saved file path
 
-            prof_user = Users(
-                username=user_name,
-                passhash=generate_password_hash(password, method='pbkdf2:sha256'),
-                role=2 
-            )
-
-            db.session.add(prof_user)
-            db.session.commit()
+            db.session.commit()  # Commiting all changes
 
             # Registration success, redirect to login page with success message
             flash("Registration successful!", category="Success")
@@ -145,7 +151,7 @@ def index():
     if request.method=="POST":
         user_name=request.form.get("loginusername")
         password=request.form.get("loginpassword")
-        urole=request.form.get("loginrole")
+        urole=int(request.form.get("loginrole"))
 
         if not user_name or not password or not urole:
             flash("Please fill out all fields", category="Failed")
@@ -183,7 +189,9 @@ def register():
 @app.route('/professional-home',methods=["GET","POST"])
 @auth_requ
 def professional_home():
-        return render_template('professional-home.html')
+    user_det = Users.query.get(session.get('user_id'))
+    pro_det = Professional.query.filter_by(user_id=session['user_id']).first()
+    return render_template('professional-home.html', user=user_det, professional=pro_det)
 
 
 @app.route('/professional-search',methods=["GET","POST"])
@@ -203,7 +211,9 @@ def professional_summary():
 @app.route('/customer-home',methods=["GET","POST"])
 @auth_requ
 def customer_home():
-        return render_template('customer-home.html')
+    user_det = Users.query.get(session.get('user_id'))
+    cust_det = Customer.query.filter_by(user_id=session['user_id']).first()
+    return render_template('customer-home.html',user=user_det, customer=cust_det)
 
 
 @app.route('/customer-search',methods=["GET","POST"])

@@ -11,12 +11,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <h5 class="card-title">ARYA</h5>
+                <h5 class="card-title">{{ customer.name}}</h5>
                 <hr>
-                <p class="text-start mb-1"><strong>Username:</strong> aryadevji</p>
-                <p class="text-start mb-1"><strong>Email:</strong> av@gmail.com</p>
-                <p class="text-start mb-1"><strong>Address:</strong> asvuxbauxb</p>
-                <p class="text-start mb-1"><strong>Pincode:</strong> 4787</p>
+                <p class="text-start mb-1"><strong>Username:</strong>  {{ user.username}}</p>
+                <p class="text-start mb-1"><strong>Email:</strong> {{ customer.email}}</p>
+                <p class="text-start mb-1"><strong>Address:</strong> {{ customer.address}}</p>
+                <p class="text-start mb-1"><strong>Pincode:</strong> {{ customer.pincode}}</p>
 
                 <button class="btn btn-light" type="button">Close</button>
                 <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editprofile" type="button">Edit</button>
