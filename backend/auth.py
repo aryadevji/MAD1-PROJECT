@@ -171,7 +171,7 @@ def index():
         flash("Login Success!", category="Success")
 
         if usr.role == 0:                                #login based on roles
-            return render_template("admin-home.html")
+            return redirect("/admin-home")
         elif usr.role == 1:
             return redirect('/customer-home')
         elif usr.role == 2:

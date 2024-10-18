@@ -64,7 +64,7 @@
                         <label for="pincode" class="form-label">Pin Code</label>
                         <input type="number" class="form-control" name="pincode" id="pincode" placeholder="Update your pincode" value="{{ customer.pincode }}">
                     </div>
-                    
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-dark">UPDATE</button>
@@ -77,7 +77,7 @@
 
 
 <div class="container mt-5">
-    <h3 class="tabletitle">Looking For?</h3>
+    <h3 class="tabletitle">Active Services</h3>
 
     <div class="Services-available">
         <table class="table table-bordered table-striped">
@@ -85,20 +85,24 @@
                 <tr>
                     <th>SNo.</th>
                     <th>Services</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr onclick="window.location.href='#service1';" style="cursor: pointer;">
                     <td>1</td>
                     <td>Service1</td>
+                    <td><button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#reviewModal">Close</button></td>
                 </tr>
                 <tr onclick="window.location.href='#service2';" style="cursor: pointer;">
                     <td>2</td>
                     <td>Service2</td>
+                    <td><button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#reviewModal">Close</button></td>
                 </tr>
                 <tr>
                     <td>3</td>
                     <td>Gardening</td>
+                    <td><button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#reviewModal">Close</button></td>
                 </tr>
                 <tr>
                     <td>4</td>
@@ -125,8 +129,42 @@
         </table>
     </div>
 </div>
-
-
+  
+  <!-- Modal -->
+  <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center w-100" id="reviewModalLabel">Submit Your Review</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Review Form inside modal -->
+          <form>
+            <div class="mb-3">
+              <label for="review" class="form-label">Your Review :</label>
+              <textarea class="form-control" id="review" rows="3" placeholder="Enter your review"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="rating" class="form-label">Your Rating :</label>
+              <select class="form-select" id="rating">
+                <option selected disabled>Select a rating</option>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-dark">Submit Review</button>
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
