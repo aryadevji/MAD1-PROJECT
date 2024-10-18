@@ -29,10 +29,9 @@ class Services(db.Model):
     __tablename__="services"
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(50),nullable=False)
-    details=db.Column(db.String(300),nullable=False)
-    timereq=db.Column(db.String(50),nullable=False)
+    baseprice=db.Column(db.String(50),nullable=False)
+    description=db.Column(db.String(500),nullable=False)
     # professional_id=db.Column(db.S) fk
-    active=db.Column(db.Boolean,nullable=False,default=True)
     
 
 

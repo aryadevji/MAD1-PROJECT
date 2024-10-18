@@ -2,13 +2,15 @@
 {% block body %}
 
 
-<div type="button" data-bs-toggle="modal" data-bs-target="#viewprofile" class="view-edit-profile">View / Edit Profile</div>
+<div type="button" data-bs-toggle="modal" data-bs-target="#viewprofile" class="view-edit-profile">
+    View / Edit Profile</div>
 
 <div class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="viewprofilelabel" aria-hidden="true">
     <div class="modal-dialog"> 
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="viewprofilelable">View Profile</h5>
+                <h5 class="modal-title" id="viewprofilelable">
+                    <i class="fa-solid fa-eye"></i> View Profile</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
@@ -25,7 +27,8 @@
                 <p class="text-start mb-1"><strong>Experience:</strong> {{ professional.experience }} Years</p>
 
                 <button class="btn btn-light" type="button">Close</button>
-                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editprofile" type="button">Edit</button>
+                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editprofile" type="button">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit</button>
             </div>
         </div>
     </div>
@@ -104,7 +107,10 @@
                     <td>John Doe</td>
                     <td>john@example.com</td>
                     <td>11235</td>
-                    <td><button type="button" class="btn btn-outline-success">Accept </button> <button type="button" class="btn btn-outline-danger">Reject</button></td>
+                    <td><button type="button" class="btn btn-outline-success">
+                        <i class="fa-solid fa-circle-check"></i> Accept </button> 
+                        <button type="button" class="btn btn-outline-danger">
+                        <i class="fa-solid fa-circle-xmark"></i> Reject</button></td>
                     
                 </tr>
                 <tr>

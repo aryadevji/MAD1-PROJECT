@@ -7,9 +7,11 @@
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h3 class="tabletitle text-right w-100">All Services</h3>
         <button class="btn btn-light" style="width: 200px; border: 2px solid black;" 
-        type="button" data-bs-toggle="modal" data-bs-target="#new_service">+Add New Service</button>
+        type="button" data-bs-toggle="modal" data-bs-target="#new_service">
+        <i class="fas fa-plus"></i>
+        Add New Service
+        </button>
     </div>
-      <!-- Modal -->
       <div class="modal fade" id="new_service" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -18,8 +20,8 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <!-- Form inside modal -->
-              <form>
+
+              <form action="{{ url_for('add_service') }}" method="post">
                 <div class="mb-3">
                   <label for="service_name" class="form-label"> Service Name: </label>
                   <input type="text" class="form-control" id="service_name" placeholder="Enter New Service Name ">
@@ -35,7 +37,7 @@
               </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-dark">+Add</button>
+                <button type="button" class="btn btn-dark">+ Add</button>
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
             </div>
           </div>
@@ -59,10 +61,12 @@
                     <td>john@example.com</td>
                     <td>
                         <button 
-                            type="button" class="btn btn-outline-warning">Edit
+                            type="button" class="btn btn-outline-warning">
+                            <i class="fas fa-edit"></i> Edit
                         </button>
                         <button 
-                        type="button" class="btn btn-outline-danger">Delete
+                        type="button" class="btn btn-outline-danger">
+                        <i class="fas fa-trash"></i> Delete
                         </button>
                     </td>
                     
@@ -130,11 +134,14 @@
                     <td>11235</td>
                     <td>
                         <button 
-                        type="button" class="btn btn-outline-success">Accept 
+                        type="button" class="btn btn-outline-success">
+                        <i class="fas fa-circle-check"></i> Accept 
                         </button>
-                        <button type="button" class="btn btn-outline-dark">Reject
+                        <button type="button" class="btn btn-outline-dark">
+                            <i class="fas fa-circle-xmark"></i> Reject
                         </button>
-                        <button type="button" class="btn btn-outline-danger">Delete
+                        <button type="button" class="btn btn-outline-danger">
+                            <i class="fas fa-trash"></i> Delete
                         </button>
                         
                     </td>

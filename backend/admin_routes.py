@@ -22,3 +22,10 @@ def admin_search():
 @auth_requ
 def admin_summary():
         return render_template('admin-summary.html')
+
+
+
+@app.route('/add-service',methods=["POST"])
+@auth_requ
+def add_service():
+       return "service added"
