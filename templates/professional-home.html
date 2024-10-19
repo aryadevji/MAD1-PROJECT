@@ -57,7 +57,7 @@
 
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" name="username" id="username" placeholder="Update your username" value="{{ professional.username }}">
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Update your username" value="{{ user.username }}">
                     </div>
 
                     <div class="mb-3">
@@ -67,12 +67,12 @@
 
                     <div class="mb-3">
                         <label for="pincode" class="form-label">Pin Code</label>
-                        <input type="number" class="form-control" name="pincode" id="pincode" placeholder="Update your pincode" value="{{ professional.pincode }}">
+                        <input type="number" class="form-control" name="pincode" id="pincode" placeholder="Update your pincode" value="{{ professional.pincode }}" min="1">
                     </div>
 
                     <div class="mb-3">
                         <label for="experience" class="form-label">Experience (in years)</label>
-                        <input type="number" class="form-control" name="experience" id="experience" placeholder="Update your Experience" value="{{ professional.experience }}">
+                        <input type="number" class="form-control" name="experience" id="experience" placeholder="Update your Experience" value="{{ professional.experience }}" min="1">
                     </div>
 
                     <div class="modal-footer">

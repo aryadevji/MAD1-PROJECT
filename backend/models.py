@@ -21,14 +21,14 @@ class Professional(db.Model):
     service=db.Column(db.String(50),nullable=False)
     experience=db.Column(db.Integer,nullable=False)
     attachment=db.Column(db.String(300),nullable=True)
-    isactive=db.Column(db.Boolean,nullable=False,default=False)
+    isactive=db.Column(db.Integer,nullable=False,default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
 
 class Services(db.Model):
     __tablename__="services"
     id=db.Column(db.Integer,primary_key=True)
-    name=db.Column(db.String(50),nullable=False)
+    name=db.Column(db.String(50),nullable=False,unique=True)
     baseprice=db.Column(db.String(50),nullable=False)
     description=db.Column(db.String(500),nullable=False)
     # professional_id=db.Column(db.S) fk
@@ -42,6 +42,7 @@ class Customer(db.Model):
     email=db.Column(db.String(50),unique=True,nullable=False)
     pincode=db.Column(db.Integer,nullable=False)
     address=db.Column(db.String(300),nullable=False)
+    isactive=db.Column(db.Boolean,nullable=False,default=1)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
 

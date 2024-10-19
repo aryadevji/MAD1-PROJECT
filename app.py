@@ -8,6 +8,7 @@ def create_app():
     service_app = Flask(__name__)  # Flask app object
     service_app.debug = True
     service_app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///household.sqlite3"
+
     service_app.secret_key='abdvwqeihdvc'
     UPLOAD_FOLDER = os.path.join(os.getcwd(),'static', 'pdfs')  # Folder where uploaded pdfs will be stored
     service_app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER

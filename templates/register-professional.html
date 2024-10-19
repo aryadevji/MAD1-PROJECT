@@ -30,13 +30,9 @@
                       <label for="servicename" class="form-label plable">Service Name</label>
                       <select class="form-select form-select mb-3" aria-label="Large select example" id="servicename" name="servicename" required>
                           <option selected>Select Available Services</option>
-                          <option value="cleaning">Cleaning</option>
-                          <option value="plumbing">Plumbing</option>
-                          <option value="electrical">Electrical</option>
-                          <option value="gardening">Gardening</option>
-                          <option value="cooking">Cooking</option>
-                          <option value="pestcontrol">PestControl</option>
-                          <option value="laundry">Laundry</option>
+                          {% for service in services %}
+                          <option value="{{service.name}}">{{service.name}}</option>
+                          {% endfor %}
                       </select>
                   </div>
               

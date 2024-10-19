@@ -35,11 +35,13 @@ def edit_professional_profile():
     new_username=request.form.get('username')
     new_email=request.form.get('email')
     new_address=request.form.get('address')
-    new_pincode=request.form.get('pincode')
+    new_pincode=int(request.form.get('pincode'))
+    new_experience=int(request.form.get('experience'))
 
 
     user_det = Users.query.get(session.get('user_id'))
     pro_det = Professional.query.filter_by(user_id=session['user_id']).first()
+
 
     if new_username and new_username != user_det.username:
         existing_username = Users.query.filter_by(username=new_username).first()
@@ -54,31 +56,42 @@ def edit_professional_profile():
             return redirect('/customer-home') 
 
     updated= False
-    if new_name:
+    if new_name and new_name != pro_det.name:
         pro_det.name = new_name
         updated= True
         flash("Name Update Success!")
+    
 
-    if new_email:
+    if new_email and new_email != pro_det.email:
         pro_det.email = new_email
         updated= True
         flash("Email Update Success!")
 
-    if new_username:
+    if new_username and new_username != user_det.username:
         user_det.username = new_username
         updated= True
         flash("Username Update Success!")
 
-    if new_address:
+    if new_address and new_address != pro_det.address:
         pro_det.address = new_address
         updated = True
         flash("Address Update Success!")
 
-    if new_pincode:
+
+    if new_pincode and new_pincode > 0 and new_pincode != pro_det.pincode:
         pro_det.pincode = new_pincode
         updated = True
         flash("Pincode Update Success!")
 
+    if new_experience and new_experience > 0 and new_experience != pro_det.experience:
+        pro_det.experience = new_experience
+        updated = True
+        flash("Experience Update Success!")
+
+
     if updated:
         db.session.commit()
+    else:
+        flash("No field Updated!", category="Failed")
     return redirect('/professional-home')
+    

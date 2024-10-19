@@ -18,12 +18,33 @@ def auth_requ(funct):
             return redirect('/login')
     return inner_funct
 
+#admin auth required decorater
+def admin_requ(funct):
+    @wraps(funct)
+    def inner_funct(*args ,**kwargs):
+        if 'user_id' not in session:
+            flash("Please Login to Continue!", category="Failed")
+            return redirect('/login')
+        
+        user= Users.query.get(session['user_id'])
+        if user.role == 0:
+            return funct(*args,**kwargs)
+        if user.role == 1:
+            flash("You are not authorized to access this page", category="Failed")
+            return redirect('/customer-home')
+        if user.role == 2:
+            flash("You are not authorized to access this page", category="Failed")
+            return redirect('/professional-home')
+        
+    return inner_funct
 
 # CUSTOMERS REGISTERATION 
 
 @app.route('/register-customer',methods=["GET","POST"])
 def register_customer():
     if request.method == "POST":
+
+        
         try:
             full_name = request.form.get("customername")
             cust_email = request.form.get("customeremail")
@@ -31,6 +52,14 @@ def register_customer():
             password = request.form.get("customerpassword")
             cust_add = request.form.get("customeraddress")
             cust_pincode = request.form.get("customerpincode")
+
+            # for database intergrity check username or email already exists
+            existing_user = Users.query.filter((Users.username == user_name)).first()
+            existing_email=Customer.query.filter((Customer.email == cust_email)).first()
+
+            if existing_user or existing_email:
+                flash("User already exists. Please use a different username or email address !", category="Failed")
+                return redirect("/register-customer")
 
             cust_user = Users(
                 username=user_name,
@@ -70,7 +99,9 @@ def register_customer():
 
 @app.route('/register-professional', methods=["GET", "POST"])
 def register_professional():
+    services=Services.query.all()
     if request.method == "POST":
+
         try:
             full_name = request.form.get("profname")
             prof_email = request.form.get("profemail")
@@ -80,6 +111,14 @@ def register_professional():
             prof_experience = request.form.get("experience")
             prof_add = request.form.get("profadd")
             prof_pincode = request.form.get("profpincode")
+
+            # for database intergrity check username or email already exists
+            existing_user = Users.query.filter((Users.username == user_name)).first()
+            existing_email=Professional.query.filter((Professional.email == prof_email)).first()
+
+            if existing_user or existing_email:
+                flash("User already exists. Please use a different username or email address !", category="Failed")
+                return redirect("/register-professional")
 
             # Checking if a file is uploaded or not
 
@@ -141,7 +180,7 @@ def register_professional():
             flash(f"Registration failed: {str(e)}", category="Failed")
             return render_template('register-professional.html')  #  Back to Registration
 
-    return render_template('register-professional.html')
+    return render_template('register-professional.html',services=services)
 
 
 #LOGIN USERS

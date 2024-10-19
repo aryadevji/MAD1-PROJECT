@@ -36,11 +36,11 @@ def edit_customer_profile():
     new_username=request.form.get('username')
     new_email=request.form.get('email')
     new_address=request.form.get('address')
-    new_pincode=request.form.get('pincode')
+    new_pincode=int(request.form.get('pincode'))
 
     user_det = Users.query.get(session.get('user_id'))
     cust_det = Customer.query.filter_by(user_id=session['user_id']).first()
-
+         
     # Check for existing username and email
     if new_username and new_username != user_det.username:
         existing_username = Users.query.filter_by(username=new_username).first()
@@ -56,27 +56,27 @@ def edit_customer_profile():
 
     # Updated profile fields
     updated= False
-    if new_name:
+    if new_name and new_name != cust_det.name:
         cust_det.name = new_name
         updated= True
         flash("Name Update Success!")
 
-    if new_email:
+    if new_email and new_email != cust_det.email:
         cust_det.email = new_email
         updated= True
         flash("Email Update Success!")
 
-    if new_username:
+    if new_username and new_username != user_det.username:
         user_det.username = new_username
         updated= True
         flash("Username Update Success!")
 
-    if new_address:
+    if new_address and new_address != cust_det.address:
         cust_det.address = new_address
         updated = True
         flash("Address Update Success!")
 
-    if new_pincode:
+    if new_pincode and new_pincode > 0 and new_pincode != cust_det.pincode:
         cust_det.pincode = new_pincode
         updated = True
         flash("Pincode Update Success!")
@@ -84,5 +84,7 @@ def edit_customer_profile():
     # Commit changes if any field was updated
     if updated:
         db.session.commit()
+    else:
+        flash("No field Updated!", category="Failed")
 
     return redirect('/customer-home')  # Redirect after updating
