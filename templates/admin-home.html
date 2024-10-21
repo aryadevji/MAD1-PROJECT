@@ -57,58 +57,64 @@
                 </tr>
             </thead>
             <tbody>
-                {% for service in services %}
-                <tr>
-                    <td>{{service.id}}</td>
-                    <td>{{service.name}}</td>
-                    <td>{{service.baseprice}} <i class="fa-solid fa-indian-rupee-sign"></i></td>
-                    <td>
-                        <a type="button" data-bs-toggle="modal" data-bs-target="#edit_service_{{ service.id }}" class="btn btn-outline-warning">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-                        <form action="{{ url_for('delete_service', id=service.id) }}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete {{service.name}} service permanently ?')">
-                            <button type="submit" class="btn btn-outline-danger">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </form>
-                    </td>
-                </tr>
+                {% if services | length == 0 %}
+                    <tr>
+                        <td colspan="4" class="text-center">No Service Created Yet !</td>
+                    </tr>
+                {% else %}
+                    {% for service in services %}
+                    <tr>
+                        <td>{{service.id}}</td>
+                        <td>{{service.name}}</td>
+                        <td>{{service.baseprice}} <i class="fa-solid fa-indian-rupee-sign"></i></td>
+                        <td>
+                            <a type="button" data-bs-toggle="modal" data-bs-target="#edit_service_{{ service.id }}" class="btn btn-outline-warning">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <form action="{{ url_for('delete_service', id=service.id) }}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete {{service.name}} service permanently ?')">
+                                <button type="submit" class="btn btn-outline-danger">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
 
-                <!-- Edit service -->
+                    <!-- Edit service -->
 
-                <!-- Modal -->
+                    <!-- Modal -->
 
-                <div class="modal fade" id="edit_service_{{ service.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Edit Service</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="{{ url_for('edit_service', id=service.id) }}" method="post">
-                                    <div class="mb-3">
-                                        <label for="service_name" class="form-label">Service Name:</label>
-                                        <input type="text" name="service_name" class="form-control" id="service_name" placeholder="Enter Service Name" value="{{ service.name }}">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="base_price" class="form-label">Base Price:</label>
-                                        <input type="number" name="base_price" class="form-control" id="base_price" placeholder="Enter Price" value="{{ service.baseprice }}">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="description" class="form-label">Description:</label>
-                                        <textarea class="form-control" name="description" id="description" rows="3" placeholder="Enter Service Description">{{ service.description }}</textarea>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-dark"><i class="fa-solid fa-pen"></i> UPDATE</button>
-                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-                                    </div>
-                                </form>
+                    <div class="modal fade" id="edit_service_{{ service.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit Service</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ url_for('edit_service', id=service.id) }}" method="post">
+                                        <div class="mb-3">
+                                            <label for="service_name" class="form-label">Service Name:</label>
+                                            <input type="text" name="service_name" class="form-control" id="service_name" placeholder="Enter Service Name" value="{{ service.name }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="base_price" class="form-label">Base Price:</label>
+                                            <input type="number" name="base_price" class="form-control" id="base_price" placeholder="Enter Price" value="{{ service.baseprice }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="description" class="form-label">Description:</label>
+                                            <textarea class="form-control" name="description" id="description" rows="3" placeholder="Enter Service Description">{{ service.description }}</textarea>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-dark"><i class="fa-solid fa-pen"></i> UPDATE</button>
+                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                {% endfor %}
+                    {% endfor %}
+                {% endif %}
             </tbody>
         </table>
     </div>
@@ -131,51 +137,88 @@
                 </tr>
             </thead>
             <tbody>
-                {% for professional in professionals %}
-                    {% if professional.isactive == 0 %}
-                        <tr>
-                            <td>{{ professional.id }}</td>
-                            <td>{{professional.name}}</td>
-                            <td>{{professional.service}}</td>
-                            <td>{{professional.experience}}</td>
-                            <td>
-                                <form action="{{ url_for('view_pdf', id=professional.id) }}" method="post" style="display:inline;" target="_blank">
-                                    <button 
-                                    type="submit" class="btn btn-outline-primary" >
-                                    <i class="fa-solid fa-file-pdf"></i> Open
-                                    </button>
+                {% if professionals | length == 0 %}
+                    <tr>
+                        <td colspan="6" class="text-center">No Service Professional Request Yet!</td>
+                    </tr>
+                {% else %}
+                    
+                    {% for professional in professionals | reverse%}
+                        {% if professional.isactive == 0 %}
+                            <tr>
+                                <td>{{ professional.id }}</td>
+                                <td>{{ professional.name }}</td>
+                                <td>{{ professional.service }}</td>
+                                <td>{{ professional.experience }}</td>
+                                <td>
+                                    <form action="{{ url_for('view_pdf', id=professional.id) }}" method="post" style="display:inline;" target="_blank">
+                                        <button type="submit" class="btn btn-outline-primary">
+                                            <i class="fa-solid fa-file-pdf"></i> Open
+                                        </button>
                                     </form>
-                            </td>
-                            <td>
+                                </td>
+                                <td>
+                                    <form action="{{ url_for('accept_professional', id=professional.id) }}" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-outline-success">
+                                            <i class="fas fa-circle-check"></i> Accept
+                                        </button>
+                                    </form>
+            
+                                    <form action="{{ url_for('reject_professional', id=professional.id) }}" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-outline-dark">
+                                            <i class="fas fa-circle-xmark"></i> Reject
+                                        </button>
+                                    </form>
+            
+                                    <form action="{{ url_for('delete_professional', id=professional.id) }}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete {{ professional.name }} permanently?')">
+                                        <button type="submit" class="btn btn-outline-danger">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </td>  
+                            </tr>
 
-                                <form action="{{ url_for('accept_professional', id=professional.id) }}" method="post" style="display:inline;">
-                                <button 
-                                type="submit" class="btn btn-outline-success">
-                                <i class="fas fa-circle-check"></i> Accept 
-                                </button>
-                                </form>
-
-                                <form action="{{ url_for('reject_professional', id=professional.id) }}" method="post" style="display:inline;">
-                                <button type="submit" class="btn btn-outline-dark">
-                                    <i class="fas fa-circle-xmark"></i> Reject
-                                </button>
-                                </form>
-
-                                <form action="{{ url_for('delete_professional', id=professional.id) }}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete {{professional.name}} permanently ?')">
-                                    <button type="submit" class="btn btn-outline-danger">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </form>
-                                
-                            </td>
+                        {% elif professional.isactive == 1 %}
+                            <tr>
+                                <td>{{ professional.id }}</td>
+                                <td>{{ professional.name }}</td>
+                                <td>{{ professional.service }}</td>
+                                <td>{{ professional.experience }}</td>
+                                <td>
+                                    <form action="{{ url_for('view_pdf', id=professional.id) }}" method="post" style="display:inline;" target="_blank">
+                                        <button type="submit" class="btn btn-outline-primary">
+                                            <i class="fa-solid fa-file-pdf"></i> Open
+                                        </button>
+                                    </form>
+                                </td>
+                                <td class="text-center"> Request Accepted <i class="fa-solid fa-check"></i></td>
+                            </tr>
                             
-                        </tr>
-                    {% endif %}
-                {% endfor %}
+                        {% elif professional.isactive == 2 %}
+                            <tr>
+                                <td>{{ professional.id }}</td>
+                                <td>{{ professional.name }}</td>
+                                <td>{{ professional.service }}</td>
+                                <td>{{ professional.experience }}</td>
+                                <td>
+                                    <form action="{{ url_for('view_pdf', id=professional.id) }}" method="post" style="display:inline;" target="_blank">
+                                        <button type="submit" class="btn btn-outline-primary">
+                                            <i class="fa-solid fa-file-pdf"></i> Open
+                                        </button>
+                                    </form>
+                                </td>
+                                <td class="text-center"> Request Rejected <i class="fa-solid fa-xmark"></i></td>
+                            </tr>
+
+                        {% endif %}
+                    {% endfor %}  
+                {% endif %}
             </tbody>
         </table>
     </div>
 </div>
+
+
 
 <div class="container mt-5">
     <h3 class="tabletitle">Service Requests</h3>

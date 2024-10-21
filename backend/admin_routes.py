@@ -127,7 +127,7 @@ def view_pdf(id):
 @app.route('/accept-professional/<int:id>',methods=["POST"])
 @admin_requ
 def accept_professional(id):
-    professional=Professional.query.get(id)
+    professional = Professional.query.get(id)
     #changing active status
     professional.isactive=1
     db.session.commit()
@@ -139,7 +139,7 @@ def accept_professional(id):
 @app.route('/reject-professional/<int:id>',methods=["POST"])
 @admin_requ
 def reject_professional(id):
-    professional=Professional.query.get(id)
+    professional = Professional.query.get(id)
     #changing active status
     professional.isactive=2
     db.session.commit()
@@ -149,12 +149,17 @@ def reject_professional(id):
 
 
 #Delete Request/Professional
+#deletion from database
 @app.route('/delete-professional/<int:id>',methods=["POST"])
 @admin_requ
 def delete_professional(id):
-    professional=Professional.query.get(id)
-    #deleting from database
+    professional = Professional.query.get(id)
+    user= Users.query.get(professional.user_id)
+
+    #from professional table
     db.session.delete(professional)
+    #from user table
+    db.session.delete(user)
     db.session.commit()
 
     flash("Service Professional Deleted !")

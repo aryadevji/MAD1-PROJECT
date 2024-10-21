@@ -39,7 +39,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editprofilelabel">Edit Profile</h5>
+                <h5 class="modal-title" id="editprofilelabel"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -103,52 +103,52 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>john@example.com</td>
-                    <td>11235</td>
-                    <td><button type="button" class="btn btn-outline-success">
-                        <i class="fa-solid fa-circle-check"></i> Accept </button> 
-                        <button type="button" class="btn btn-outline-danger">
-                        <i class="fa-solid fa-circle-xmark"></i> Reject</button></td>
+                    <tbody>
+                        {% for request in requests | reverse %}
+                            {% if request.professional_id == professional.id %}
+                                {% if request.status == 0 %}
+                                    <tr>
+                                        <td>{{ request.id }}</td>
+                                        <td>{{ request.customer.name }}</td>
+                                        <td>{{ request.customer.email }}</td>
+                                        <td>{{ request.customer.pincode }}</td>
+                                        <td>
+                                            <form action="{{ url_for('accept_service', id=request.id) }}" method="post" style="display:inline;">
+                                                <button type="submit" class="btn btn-outline-success">
+                                                    <i class="fas fa-circle-check"></i> Accept
+                                                </button>
+                                            </form>
                     
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Jane Smith</td>
-                    <td>jane@example.com</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Mike Johnson</td>
-                    <td>mike@example.com</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Chris Brown</td>
-                    <td>chris@example.com</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Lisa White</td>
-                    <td>lisa@example.com</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Tom Hardy</td>
-                    <td>tom@example.com</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Emma Watson</td>
-                    <td>emma@example.com</td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>David Miller</td>
-                    <td>david@example.com</td>
-                </tr>
-            
+                                            <form action="{{ url_for('reject_service', id=request.id) }}" method="post" style="display:inline;">
+                                                <button type="submit" class="btn btn-outline-dark">
+                                                    <i class="fas fa-circle-xmark"></i> Reject
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                    
+                                {% elif request.status == 1 %}
+                                    <tr>
+                                        <td>{{ request.id }}</td>
+                                        <td>{{ request.customer.name }}</td>
+                                        <td>{{ request.customer.email }}</td>
+                                        <td>{{ request.customer.pincode }}</td>
+                                        <td class="text-center">Request Accepted <i class="fa-solid fa-check"></i></td>
+                                    </tr>
+                    
+                                {% elif request.status == 2 %}
+                                    <tr>
+                                        <td>{{ request.id }}</td>
+                                        <td>{{ request.customer.name }}</td>
+                                        <td>{{ request.customer.email }}</td>
+                                        <td>{{ request.customer.pincode }}</td>
+                                        <td class="text-center">Request Rejected <i class="fa-solid fa-xmark"></i></td>
+                                    </tr>
+                    
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>                    
             </tbody>
         </table>
     </div>

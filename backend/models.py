@@ -12,27 +12,34 @@ class Users(db.Model):
 
 
 class Professional(db.Model):
-    __tablename__="professional"
-    id=db.Column(db.Integer,primary_key=True)
-    name=db.Column(db.String(50),nullable=False)
-    email=db.Column(db.String(50),unique=True,nullable=False)
-    pincode=db.Column(db.Integer,nullable=False)
-    address=db.Column(db.String(300),nullable=False)
+    __tablename__ = "professional"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    pincode = db.Column(db.Integer, nullable=False)
+    address = db.Column(db.String(300), nullable=False)
     service=db.Column(db.String(50),nullable=False)
-    experience=db.Column(db.Integer,nullable=False)
-    attachment=db.Column(db.String(300),nullable=True)
-    isactive=db.Column(db.Integer,nullable=False,default=0)
+    experience = db.Column(db.Integer, nullable=False)
+    attachment = db.Column(db.String(300), nullable=True)
+    isactive = db.Column(db.Integer, nullable=False, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-
+    # Relationship to Requests model
+    requests = db.relationship('Requests', backref='professional', lazy=True)
+    
 
 class Services(db.Model):
-    __tablename__="services"
-    id=db.Column(db.Integer,primary_key=True)
-    name=db.Column(db.String(50),nullable=False,unique=True)
-    baseprice=db.Column(db.String(50),nullable=False)
-    description=db.Column(db.String(500),nullable=False)
-    # professional_id=db.Column(db.S) fk
+    __tablename__ = "services"
     
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False, unique=True)
+    baseprice = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+    
+    # Relationship to Requests model
+    requests = db.relationship('Requests', backref='services', lazy=True)
+    
+
 
 
 class Customer(db.Model):
@@ -44,16 +51,22 @@ class Customer(db.Model):
     address=db.Column(db.String(300),nullable=False)
     isactive=db.Column(db.Boolean,nullable=False,default=1)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    requests=db.relationship('Requests', backref='customer',lazy=True)
 
 
 
 class Requests(db.Model):
     __tablename__="requests"
     id=db.Column(db.Integer,primary_key=True)
-    # Customer_id=db.Column(db.String(50),unique=True,nullable=False) fk
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'), nullable=False)
     request_date = db.Column(db.Date,nullable=False,default=db.func.current_date())
-    # service_id=db.Column(db.String,nullable=False) fk
+    professional_id = db.Column(db.Integer, db.ForeignKey('professional.id'), nullable=False)
+    service_id = db.Column(db.Integer, db.ForeignKey('services.id'), nullable=False)
+    status= db.Column(db.Integer, nullable=False, default=0)
     date_complition=db.Column(db.Date)
+
+
+
 
 
 class Transactions(db.Model):

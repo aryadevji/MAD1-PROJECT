@@ -186,38 +186,54 @@ def register_professional():
 #LOGIN USERS
 
 @app.route('/')
-@app.route('/login',methods=["GET","POST"])
+@app.route('/login', methods=["GET", "POST"])
 def index():
-    if request.method=="POST":
-        user_name=request.form.get("loginusername")
-        password=request.form.get("loginpassword")
-        urole=request.form.get("loginrole")
+    if request.method == "POST":
+        user_name = request.form.get("loginusername")
+        password = request.form.get("loginpassword")
+        urole = request.form.get("loginrole")
 
         if not user_name or not password or not urole:
             flash("Please fill out all fields", category="Failed")
             return render_template('login.html')
-        
+
+        # Fetch user by username and role
         usr = Users.query.filter_by(username=user_name, role=urole).first()
+
         if usr is None:
-            flash("User does not exists", category="Failed")  #credintals not empty
+            flash("User does not exist", category="Failed")
             return render_template('login.html')
 
+        # Check if password matches
         if not check_password_hash(usr.passhash, password):
-            flash("Invalid Password", category="Failed")  #password verification
+            flash("Invalid Password", category="Failed")
             return render_template('login.html')
-            
+
+        # Set session
         session['user_id'] = usr.id
-        flash("Login Success!", category="Success")
 
-        if usr.role == 0:                                #login based on roles
+        # Redirect based on user role, but first check if account is active
+        if usr.role == 0:
+            flash("Login Success!")
             return redirect("/admin-home")
-        elif usr.role == 1:
-            return redirect('/customer-home')
-        elif usr.role == 2:
-            return redirect('professional-home')
         
-    return render_template('login.html')
+        elif usr.role == 1:
+            customer = Customer.query.filter_by(user_id=usr.id).first()
+            if customer.isactive != 1:
+                flash("Your Customer account is disabled !", category="Failed")
+                return render_template('login.html')
+            flash("Login Success!")
+            return redirect('/customer-home')
+        
+        elif usr.role == 2:
+            professional = Professional.query.filter_by(user_id=usr.id).first()
+            if professional.isactive != 1:
+                flash("Your Professional account is disabled or not activated yet!", category="Failed")
+                return render_template('login.html')
+            flash("Login Success!")
+            return redirect('/professional-home')
 
+    return render_template('login.html')
 
 @app.route('/register')
 def register():

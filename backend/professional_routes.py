@@ -4,12 +4,53 @@ from .auth import auth_requ
 
 # PROFESSIONAL ROUTES
 
-@app.route('/professional-home',methods=["GET","POST"])
+@app.route('/professional-home', methods=["GET", "POST"])
 @auth_requ
 def professional_home():
     user_det = Users.query.get(session.get('user_id'))
     pro_det = Professional.query.filter_by(user_id=session['user_id']).first()
-    return render_template('professional-home.html', user=user_det, professional=pro_det)
+    req_det = Requests.query.filter_by(professional_id=pro_det.id).all()
+
+    print([(req.id, req.status, req.professional_id) for req in req_det])
+
+
+    return render_template('professional-home.html', user=user_det, professional=pro_det, requests=req_det)
+
+
+
+# Accepting Request
+@app.route('/accept-service/<int:id>', methods=["POST"])
+@auth_requ
+def accept_service(id):
+    # Fetch the request by its id
+    request = Requests.query.get(id)
+
+    # Change status to 'Accepted'
+    request.status = 1
+    db.session.commit()
+
+    flash("Service Request Accepted!")
+    return redirect('/professional-home')
+
+
+# Declining Request
+@app.route('/reject-service/<int:id>', methods=["POST"])
+@auth_requ
+def reject_service(id):
+    # Fetch the request by its id
+    request = Requests.query.get(id)
+
+    # Change status to 'Rejected'
+    request.status = 2
+    db.session.commit()
+
+    flash("Service Request Rejected!")
+    return redirect('/professional-home')
+
+
+
+
+
 
 
 @app.route('/professional-search',methods=["GET","POST"])

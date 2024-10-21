@@ -16,7 +16,60 @@ def customer_home():
 @app.route('/customer-search',methods=["GET","POST"])
 @auth_requ
 def customer_search():
-        return render_template('customer-search.html')
+    return render_template('customer-search.html')
+
+
+@app.route('/search-results', methods=['GET'])
+@auth_requ
+def search_results():
+    query = request.args.get('query')
+    filter_type = request.args.get('filter')
+
+    service_professionals = []
+    
+    if filter_type == 'service_name':
+        # Fetch services based on the query
+        services = Services.query.filter(Services.name.ilike(f"%{query}%")).all()
+        
+        for service in services:
+            # Find professionals that match the service name
+            professionals = Professional.query.filter(Professional.service == service.name).all()
+            service_professionals.append((service, professionals))
+            
+    elif filter_type == 'base_price':
+        # Fetch services based on base price
+        services = Services.query.filter(Services.baseprice.ilike(f"%{query}%")).all()
+        
+        for service in services:
+            # Find professionals that match the service name
+            professionals = Professional.query.filter(Professional.service == service.name).all()
+            service_professionals.append((service, professionals))
+
+    return render_template('customer-search.html', service_professionals=service_professionals)
+
+
+
+@app.route('/book-service/<int:service_id>/<int:professional_id>', methods=['POST'])
+@auth_requ
+def book_service(service_id, professional_id):
+    customer = Customer.query.filter_by(user_id=session.get('user_id')).first()
+
+
+    new_request = Requests(
+        customer_id=customer.id,
+        service_id=service_id,
+        professional_id=professional_id
+    )
+
+    db.session.add(new_request)
+    db.session.commit()
+
+    flash('Service booked!', 'success')
+
+    return redirect('/customer-search')
+
+
+
 
 
 @app.route('/customer-summary',methods=["GET","POST"])
