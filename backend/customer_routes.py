@@ -2,7 +2,6 @@ from flask import render_template, current_app as app, request, flash, redirect,
 from .models import *
 from .auth import auth_requ
 
-
 #CUSTOMER ROUTES
 
 @app.route('/customer-home',methods=["GET","POST"])
@@ -10,7 +9,37 @@ from .auth import auth_requ
 def customer_home():
     user_det = Users.query.get(session.get('user_id'))
     cust_det = Customer.query.filter_by(user_id=session['user_id']).first()
-    return render_template('customer-home.html',user=user_det, customer=cust_det)
+    service_requests= Requests.query.filter_by(customer_id=cust_det.id).all()
+    return render_template('customer-home.html',user=user_det, customer=cust_det,service_requests=service_requests)
+
+
+
+
+@app.route('/edit-service-req/<int:id>',methods=["POST"])
+@auth_requ
+def edit_service_req(id):
+    from datetime import datetime
+    update_date = request.form.get('req_date')
+    resend = request.form.get('resend')
+    edit_service_request = Requests.query.get(id)
+
+    if update_date and resend and resend.isdigit():
+        
+        resend = int(resend)
+        update_date = datetime.strptime(update_date, '%Y-%m-%d').date()
+        edit_service_request.status = resend
+        edit_service_request.request_date = update_date
+        db.session.commit()
+        if resend == 0:
+            flash("Service Request Updated and Sent Back Again !")
+        else:
+            flash("Service Request Updated !")
+
+    
+    else:
+        flash("Service Request not Updated fill all fields !", category="Failed")
+           
+    return redirect('/customer-home')
 
 
 @app.route('/customer-search',methods=["GET","POST"])
@@ -23,29 +52,37 @@ def customer_search():
 @auth_requ
 def search_results():
     query = request.args.get('query')
-    filter_type = request.args.get('filter')
+    parameter = request.args.get('parameter')
 
     service_professionals = []
     
-    if filter_type == 'service_name':
-        # Fetch services based on the query
-        services = Services.query.filter(Services.name.ilike(f"%{query}%")).all()
+    if parameter == 'service':
+        # services based on the query
+        if query:
+            services = Services.query.filter(Services.name.ilike(f"%{query}%")).all()
+        else:
+            services =Services.query.all()
         
         for service in services:
-            # Find professionals that match the service name
+            # professionals that match the service name
             professionals = Professional.query.filter(Professional.service == service.name).all()
             service_professionals.append((service, professionals))
             
-    elif filter_type == 'base_price':
-        # Fetch services based on base price
-        services = Services.query.filter(Services.baseprice.ilike(f"%{query}%")).all()
+    elif parameter == 'price':
+        # services based on base price
+        if query:
+            services = Services.query.filter(Services.baseprice.ilike(f"%{query}%")).all()
+        else:
+            services =Services.query.all()
         
         for service in services:
-            # Find professionals that match the service name
+            #professionals that match the service name
             professionals = Professional.query.filter(Professional.service == service.name).all()
             service_professionals.append((service, professionals))
 
     return render_template('customer-search.html', service_professionals=service_professionals)
+
+
 
 
 
@@ -69,6 +106,34 @@ def book_service(service_id, professional_id):
     return redirect('/customer-search')
 
 
+#closing a active service and submitting review and rating
+@app.route('/close-service-request/<int:request_id>', methods=['POST'])
+@auth_requ
+def close_service(request_id):
+    from sqlalchemy import func
+    service_request = Requests.query.get(request_id)
+    
+    service_request.status = 3
+    service_request.date_complition = func.current_date()
+    db.session.commit()
+
+    review_message = request.form.get('review')
+    rating = int(request.form.get('rating'))
+
+    review = Reviews(
+        review=review_message,
+        rating=rating,
+        customer_id=service_request.customer_id,
+        professional_id=service_request.professional_id,
+        service_id=service_request.service_id,
+        request_id=request_id
+    )
+
+    db.session.add(review)
+    db.session.commit()
+
+    flash("Service closed, thanks for your feedback !")
+    return redirect('/customer-home')
 
 
 

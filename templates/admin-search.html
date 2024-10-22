@@ -5,19 +5,25 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="input-group mb-3">
-                
-                <input type="text" class="form-control  searchbox" placeholder="Search..." aria-label="Search">
-                <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-filter"></i>
-                    Filter
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#">Service</a></li>
-                    <li><a class="dropdown-item" href="#">Professionals</a></li>
-                    <li><a class="dropdown-item" href="#">Customers</a></li>
-                </ul>
-            </div>
+            <form action="{{ url_for('admin_search_results') }}" method="GET">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control searchbox" id='query' name="query" placeholder="Search..." aria-label="Search" style="border-right: none;">
+                    
+                    <div class="input-group-append" style="display:flex; border-top:1px solid black; border-bottom:1px solid black;">
+                        <select class="btn btn-outline-dark parameter form-select" name='parameter' id='parameter' type="button" aria-expanded="false" style="border-radius: 0%; height:100%; width:185px;  border-top: none; border-bottom: none; border-left: none;" >
+                            <option selected> Filter</option>
+
+                            <option value="request"> Service Requests </option>
+                            <option value="customer"> Customer </option>
+                            <option value="professional"> Professional </option>
+                        </select>
+
+                    </div>
+                    <button class="btn btn-outline-dark" type="submit">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -27,57 +33,131 @@
     <div class="searchtable">
         <table class="table table-bordered table-striped">
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Customer Name</th>
-                    <th>Customer Email</th>
-                    <th>Pin Code</th>
-                    <th>Date</th>
-                    <th>Ratings</th>
-                </tr>
+                {% if all_requests %}
+                    <tr>
+                        <th>ID</th>
+                        <th>Service Name</th>
+                        <th>Assigned Professional</th>
+                        <th>Customer Name</th>
+                        <th>Status</th>
+                    </tr>
+
+                {% elif all_professionals %}
+                    <tr>
+                        <th>ID</th>
+                        <th>Professional Name</th>
+                        <th>Professional Email</th>
+                        <th>Pin Code</th>
+                        <th>Service</th>
+                        <th>Action</th>
+                        <th>Status</th>
+                    </tr>
+
+                {% elif all_customers %}
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer Name</th>
+                        <th>Customer Email</th>
+                        <th>Pin Code</th>
+                        <th>Action</th>
+                        <th>Status</th>
+
+                    </tr>
+                {% endif %}
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>john@example.com</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Jane Smith</td>
-                    <td>jane@example.com</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Mike Johnson</td>
-                    <td>mike@example.com</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Chris Brown</td>
-                    <td>chris@example.com</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Lisa White</td>
-                    <td>lisa@example.com</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Tom Hardy</td>
-                    <td>tom@example.com</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Emma Watson</td>
-                    <td>emma@example.com</td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>David Miller</td>
-                    <td>david@example.com</td>
-                </tr>
-            
+                {% if all_requests %}
+                    {% for request in all_requests %}
+                    <tr>
+                        <td>{{ request.id }}</td>
+                        <td>{{ request.service.name }}</td>
+                        <td>{{ request.professional.name }}</td>
+                        <td>{{ request.customer.name }}</td>
+                        <td>
+                            {% if request.status == 0 %}
+                                Pending
+                            {% elif request.status == 1 %}
+                                Accepted
+                            {% elif request.status == 2 %}
+                                Rejected
+                            {% elif request.status == 3 %}
+                                Closed
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                {% elif all_professionals %}
+                    {% for professional in all_professionals %}
+                        {% if professional.isactive == 1 or professional.isactive == 3 %}
+                            <tr>
+                                <td>{{ professional.id }}</td>
+                                <td>{{ professional.name }}</td>
+                                <td>{{ professional.email  }}</td>
+                                <td>{{ professional.pincode }}</td>
+                                <td>{{ professional.service }}</td>
+                                <td>
+                                    <form action="{{ url_for('unblock_professional', id=professional.id) }}" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-outline-success">
+                                            <i class="fa-regular fa-circle-check"></i> Unblock
+                                        </button>
+                                    </form>
+
+                                    <form action="{{ url_for('block_professional', id=professional.id) }}" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-outline-danger">
+                                            <i class="fa-solid fa-ban"></i> Block
+                                        </button>
+                                    </form>
+                                </td>
+
+                                <td>
+                                    {% if professional.isactive == 1 %}
+                                        Active
+                                    {% elif professional.isactive == 3 %}
+                                        Blocked
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                {% endfor %}
+                    
+
+                {% elif all_customers %}
+                    {% for customer in all_customers %}
+                    <tr>
+                        <td>{{ customer.id }}</td>
+                        <td>{{ customer.name }}</td>
+                        <td>{{ customer.email  }}</td>
+                        <td>{{ customer.pincode }}</td>
+                        <td>
+                            <form action="{{ url_for('unblock_customer', id=customer.id) }}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-outline-success">
+                                    <i class="fa-regular fa-circle-check"></i> Unblock
+                                </button>
+                            </form>
+
+                            <form action="{{ url_for('block_customer', id=customer.id) }}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-outline-danger">
+                                    <i class="fa-solid fa-ban"></i> Block
+                                </button>
+                            </form>
+                        </td>
+
+                        <td>
+                            {% if customer.isactive == 1 %}
+                                Active
+                            {% elif customer.isactive == 0 %}
+                                Blocked
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                
+                {% else %}
+                    <tr>
+                        <td class="text-center" colspan="6">No Result Found !</td>
+                    </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>

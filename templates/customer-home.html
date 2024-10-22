@@ -85,96 +85,123 @@
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>SNo.</th>
+                    <th>ID</th>
                     <th>Services</th>
+                    <th>Professional Name</th>
+                    <th>Request Date</th>
                     <th>Action</th>
+                    <th>Edit</th>
                 </tr>
             </thead>
             <tbody>
-                <tr onclick="window.location.href='#service1';" style="cursor: pointer;">
-                    <td>1</td>
-                    <td>Service1</td>
-                    <td><button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#reviewModal">
-                        <i class="fas fa-circle-xmark"></i> Close</button></td>
-                </tr>
-                <tr onclick="window.location.href='#service2';" style="cursor: pointer;">
-                    <td>2</td>
-                    <td>Service2</td>
-                    <td><button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#reviewModal">
-                        <i class="fas fa-circle-xmark"></i> Close</button></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Gardening</td>
-                    <td><button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#reviewModal">
-                        <i class="fas fa-circle-xmark"></i> Close</button></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Painting</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Food</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Carpanter</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Catering</td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>Cleaning</td>
-                </tr>
-            
+                {% for service_request in service_requests %}
+                    {% if service_request.status == 1 %}
+                    <tr>
+                        <td>{{ service_request.id }}</td>
+                        <td>{{ service_request.services.name }}</td>
+                        <td>{{ service_request.professional.name }}</td>
+                        <td>{{ service_request.request_date }}</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="reviewModalLabel{{ service_request.id }}">
+                                <i class="fas fa-circle-xmark"></i> Close
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ service_request.id }}">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </td>
+                    </tr>
+
+
+                    <!-- Modal for edit exisiting request-->
+                    <div class="modal fade" id="editModal{{ service_request.id }}" tabindex="-1" aria-labelledby="editModalLabel{{ service_request.id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModalLabel{{ service_request.id }}"> 
+                                        <i class="fa-solid fa-pen-to-square"></i> Edit Existing Service
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ url_for('edit_service_req', id=service_request.id) }}" method="post">
+                                        <div class="mb-3">
+                                            <label for="req_date" class="form-label">Request Date</label>
+                                            <input type="date" class="form-control" name="req_date" id="req_date" placeholder="Update Request date" value="{{ service_request.date }}" required>
+                                        </div>
+                    
+                                        <div class="mb-3">
+                                            <select class="form-select" aria-label="Default select example" id="resend" name="resend" required>
+                                                <option selected>Send Request Again?</option>
+                                                <option value="0">Yes</option>
+                                                <option value="1">No</option>
+                                            </select>
+                                        </div>
+                    
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-dark">UPDATE</button>
+                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+
+
+
+
+
+                    <!-- Modal for this service request -->
+                    <div class="modal fade" id="reviewModal{{ service_request.id }}" tabindex="-1" aria-labelledby="reviewModalLabel{{ service_request.id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-center w-100" id="reviewModalLabel{{ service_request.id }}">Submit Your Review</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Review Form inside modal -->
+                                    <form id="reviewForm" method="POST" action="{{ url_for('close_service', request_id=service_request.id) }}">
+                                        <div class="mb-3">
+                                            <label for="review" class="form-label">Your Review : <i class="fa-solid fa-pen-fancy"></i></label>
+                                            <textarea class="form-control" id="review" name="review" rows="3" placeholder="Enter your review"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="rating" class="form-label">Your Rating : <i class="fa-solid fa-star"></i></label>
+                                            <select class="form-select" id="rating" name="rating">
+                                                <option selected disabled>Select a rating</option>
+                                                <option value="1">1 Star</option>
+                                                <option value="2">2 Stars</option>
+                                                <option value="3">3 Stars</option>
+                                                <option value="4">4 Stars</option>
+                                                <option value="5">5 Stars</option>
+                                            </select>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-dark">Submit Review</button>
+                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-center w-100" id="reviewModalLabel">Submit Your Review</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <!-- Review Form inside modal -->
-          <form>
-            <div class="mb-3">
-              <label for="review" class="form-label">Your Review : <i class="fa-solid fa-pen-fancy"></i> </label>
-              <textarea class="form-control" id="review" rows="3" placeholder="Enter your review"></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="rating" class="form-label">Your Rating : <i class="fa-solid fa-star"></i> </label>
-              <select class="form-select" id="rating">
-                <option selected disabled>Select a rating</option>
-                <option value="1">1 Star</option>
-                <option value="2">2 Stars</option>
-                <option value="3">3 Stars</option>
-                <option value="4">4 Stars</option>
-                <option value="5">5 Stars</option>
-              </select>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-dark">Submit Review</button>
-          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
+
 
 
 
 <div class="container mt-5">
-    <h3 class="tabletitle">Service History</h3>
+    <h3 class="tabletitle">Your Service History</h3>
 
     <div class="fixtable">
         <table class="table table-bordered table-striped">
@@ -184,49 +211,40 @@
                     <th>Service Name</th>
                     <th>Professional Name</th>
                     <th>Professional Email</th>
+                    <th>Request Date</th>
+                    <th>Completion Date</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>john@example.com</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Jane Smith</td>
-                    <td>jane@example.com</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Mike Johnson</td>
-                    <td>mike@example.com</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Chris Brown</td>
-                    <td>chris@example.com</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Lisa White</td>
-                    <td>lisa@example.com</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Tom Hardy</td>
-                    <td>tom@example.com</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Emma Watson</td>
-                    <td>emma@example.com</td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>David Miller</td>
-                    <td>david@example.com</td>
+                    {% if service_requests | length ==0 %}
+                        <tr>
+                            <td class="text-center" colspan="7"> No Services Taken Yet !</td>
+                        </tr>
+                    {% endif %}
+                    {% for service_request in service_requests | reverse %}
+                    <tr>
+                        <td>{{ service_request.id }}</td>
+                        <td>{{ service_request.services.name }}</td>
+                        <td>{{ service_request.professional.name }}</td>
+                        <td>{{ service_request.professional.email }}</td>
+                        <td>{{ service_request.request_date }}</td>
+                        <td>{{ service_request.date_complition }}</td>
+
+                        <td>{% if service_request.status == 0 %}
+                            Request Pending
+                            {% elif service_request.status == 1 %}
+                            Service Active
+                            {% elif service_request.status == 2 %}
+                            Request Rejected
+                            {% elif service_request.status == 3 %}
+                            Service Completed
+                            {% endif %}
+                        </td>
+                    </tr>
+                    
+                {% endfor %}
                 </tr>
             
             </tbody>

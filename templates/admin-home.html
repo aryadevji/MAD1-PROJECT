@@ -221,7 +221,7 @@
 
 
 <div class="container mt-5">
-    <h3 class="tabletitle">Service Requests</h3>
+    <h3 class="tabletitle">All Service Requests</h3>
 
     <div class="fixtable">
         <table class="table table-bordered table-striped">
@@ -229,63 +229,45 @@
                 <tr>
                     <th>ID</th>
                     <th>Assigned Professional</th>
+                    <th>Service Name</th>
                     <th>Requested Date</th>
+                    
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>john@example.com</td>
-                    <td>Requested</td>
-                    
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Jane Smith</td>
-                    <td>jane@example.com</td>
-                    <td>Accepted</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Mike Johnson</td>
-                    <td>mike@example.com</td>
-                    <td>Closed</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Chris Brown</td>
-                    <td>chris@example.com</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Lisa White</td>
-                    <td>lisa@example.com</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Tom Hardy</td>
-                    <td>tom@example.com</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Emma Watson</td>
-                    <td>emma@example.com</td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>David Miller</td>
-                    <td>david@example.com</td>
-                </tr>
-            
+
+                {% if requests | length == 0 %}
+                    <tr>
+                        <td class="text-center" colspan="5">No Request Yet!</td>
+                    </tr>
+                {% else %}
+                    {% for request in requests | reverse %}
+                        <tr>
+                            <td>{{ request.id }}</td>
+                            <td>{{ request.professional.name }}</td>
+                            <td>{{ request.services.name }}</td> 
+                            <td>{{ request.request_date }}</td> 
+                            
+                            <td>
+                                {% if request.status == 0 %}
+                                    Pending
+                                {% elif request.status == 1 %}
+                                    Accepted
+                                {% elif request.status == 2 %}
+                                    Rejected
+                                {% elif request.status == 3 %}
+                                    Closed
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
             </tbody>
+            
         </table>
     </div>
 </div>
-
-
-
 
 
 

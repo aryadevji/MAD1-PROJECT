@@ -7,23 +7,17 @@
         <div class="col-md-6">
             <form action="{{ url_for('search_results') }}" method="GET">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control searchbox" name="query" placeholder="Search..." aria-label="Search" required>
+                    <input type="text" class="form-control searchbox" id='query' name="query" placeholder="Search..." aria-label="Search" style="border-right: none;">
                     
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 0%;">
-                            <i class="fas fa-filter"></i> Filter
-                        </button>
+                    <div class="input-group-append" style="display:flex; border-top:1px solid black; border-bottom:1px solid black;">
+                        <select class="btn btn-outline-dark parameter form-select" name='parameter' id='parameter' type="button" aria-expanded="false" style="border-radius: 0%; height:100%; width:125px;  border-top: none; border-bottom: none; border-left: none;" >
+                            <option selected> Filter</option>
 
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <a class="dropdown-item" href="#" onclick="document.getElementById('filter-type').value='service_name';">Service Name</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" onclick="document.getElementById('filter-type').value='base_price';">Base Price</a>
-                            </li>
-                        </ul>
+                            <option value="service"> Service </option>
+                            <option value="price">Price </option>
+                        </select>
+
                     </div>
-                    <input type="hidden" id="filter-type" name="filter" value="service_name">
                     <button class="btn btn-outline-dark" type="submit">
                         <i class="fas fa-search"></i> Search
                     </button>
@@ -112,7 +106,6 @@
         </table>
     </div>
 </div>
-
 
 
 

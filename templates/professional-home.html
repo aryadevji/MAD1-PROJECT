@@ -3,7 +3,8 @@
 
 
 <div type="button" data-bs-toggle="modal" data-bs-target="#viewprofile" class="view-edit-profile">
-    View / Edit Profile</div>
+    View / Edit Profile
+</div>
 
 <div class="modal fade" id="viewprofile" tabindex="-1" aria-labelledby="viewprofilelabel" aria-hidden="true">
     <div class="modal-dialog"> 
@@ -126,14 +127,53 @@
                                             </form>
                                         </td>
                                     </tr>
-                    
-                                {% elif request.status == 1 %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>                    
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="container mt-5">
+    <h3 class="tabletitle">Past Service Requests</h3>
+
+    <div class="fixtable">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Customer Name</th>
+                    <th>Customer Email</th>
+                    <th>Pin Code</th>
+                    <th>Date Requested</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <tbody>
+                        {% for request in requests | reverse %}
+                            {% if request.professional_id == professional.id %}
+                                {% if request.status == 1 %}
                                     <tr>
                                         <td>{{ request.id }}</td>
                                         <td>{{ request.customer.name }}</td>
                                         <td>{{ request.customer.email }}</td>
                                         <td>{{ request.customer.pincode }}</td>
-                                        <td class="text-center">Request Accepted <i class="fa-solid fa-check"></i></td>
+                                        <td>{{ request.request_date }}</td>
+                                        <td class="text-center">Active Now  <i class="fa-solid fa-check"></i></td>
+                                        <td>
+                                            <form action="{{ url_for('close_request', id=request.id) }}" method="post" style="display:inline;">
+                                                <button type="submit" class="btn btn-outline-danger">
+                                                    <i class="fas fa-circle-xmark"></i> Close
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
                     
                                 {% elif request.status == 2 %}
@@ -142,7 +182,11 @@
                                         <td>{{ request.customer.name }}</td>
                                         <td>{{ request.customer.email }}</td>
                                         <td>{{ request.customer.pincode }}</td>
+                                        <td>{{ request.request_date }}</td>
                                         <td class="text-center">Request Rejected <i class="fa-solid fa-xmark"></i></td>
+                                        <td>
+                                            ---- NA ----
+                                        </td>
                                     </tr>
                     
                                 {% endif %}
@@ -155,70 +199,47 @@
 </div>
 
 
+
 <div class="container mt-5">
-    <h3 class="tabletitle">Closed Services</h3>
+    <h3 class="tabletitle">Closed Service Requests</h3>
 
     <div class="fixtable">
         <table class="table table-bordered table-striped">
             <thead>
+
                 <tr>
                     <th>ID</th>
                     <th>Customer Name</th>
                     <th>Customer Email</th>
                     <th>Pin Code</th>
-                    <th>Date</th>
+                    <th>Compelition Date</th>
                     <th>Rating</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>john@example.com</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Jane Smith</td>
-                    <td>jane@example.com</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Mike Johnson</td>
-                    <td>mike@example.com</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Chris Brown</td>
-                    <td>chris@example.com</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Lisa White</td>
-                    <td>lisa@example.com</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Tom Hardy</td>
-                    <td>tom@example.com</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Emma Watson</td>
-                    <td>emma@example.com</td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>David Miller</td>
-                    <td>david@example.com</td>
-                </tr>
-            
+                {% for request in requests | reverse %}
+                    {% if request.professional_id == professional.id %}
+                        {% if request.status == 3 %}
+                            <tr>
+                                <td>{{ request.id }}</td>
+                                <td>{{ request.customer.name }}</td>
+                                <td>{{ request.customer.email }}</td>
+                                <td>{{ request.customer.pincode }}</td>
+                                <td>{{ request.date_complition }}</td>
+                                <td>{% for review in reviews%}
+                                    {% if review.request_id == request.id %}
+                                        {{review.rating}} <i class="fa-solid fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
-
-
-
 
 
 
