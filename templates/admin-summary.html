@@ -2,6 +2,74 @@
 {% block body %}
 
 
+  <div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="summary-title">Requests per Service</h2>
+            <canvas id="serviceChart" width="400" height="200"></canvas>
+        </div>
+        <div class="col-md-6">
+            <h2 class="summary-title">Requests per Professional</h2>
+            <canvas id="professionalChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Data for Requests per Service
+    const serviceLabels = {{ service_labels|tojson }};
+    const serviceData = {{ service_data|tojson }};
+
+    const serviceCtx = document.getElementById('serviceChart').getContext('2d');
+    new Chart(serviceCtx, {
+        type: 'pie',
+        data: {
+            labels: serviceLabels,
+            datasets: [{
+                label: 'Number of Requests',
+                data: serviceData,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Data for Requests per Professional
+    const professionalLabels = {{ professional_labels|tojson }};
+    const professionalData = {{ professional_data|tojson }};
+
+    const professionalCtx = document.getElementById('professionalChart').getContext('2d');
+    new Chart(professionalCtx, {
+        type: 'doughnut',
+        data: {
+            labels: professionalLabels,
+            datasets: [{
+                label: 'Number of Requests',
+                data: professionalData,
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+
 
 
 

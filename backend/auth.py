@@ -1,4 +1,4 @@
-from flask import Flask,render_template, current_app as app, request, flash, redirect, session
+from flask import render_template, current_app as app, request, flash, redirect, session
 from  functools import wraps
 import os
 from .models import *
@@ -37,6 +37,14 @@ def admin_requ(funct):
             return redirect('/professional-home')
         
     return inner_funct
+
+
+#register  or choose page
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+
 
 # CUSTOMERS REGISTERATION 
 
@@ -234,12 +242,6 @@ def index():
             return redirect('/professional-home')
 
     return render_template('login.html')
-
-@app.route('/register')
-def register():
-    return render_template('register.html')
-
-
 
 
 

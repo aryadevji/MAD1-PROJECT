@@ -102,7 +102,7 @@
                         <td>{{ service_request.professional.name }}</td>
                         <td>{{ service_request.request_date }}</td>
                         <td>
-                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="reviewModalLabel{{ service_request.id }}">
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#reviewModal{{ service_request.id }}">
                                 <i class="fas fa-circle-xmark"></i> Close
                             </button>
                         </td>
@@ -149,10 +149,6 @@
                         </div>
                     </div>
                     
-
-
-
-
 
 
                     <!-- Modal for this service request -->

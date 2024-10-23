@@ -75,8 +75,11 @@ class Requests(db.Model):
     service_id = db.Column(db.Integer, db.ForeignKey('services.id'), nullable=False)
     status= db.Column(db.Integer, nullable=False, default=0)
     date_complition=db.Column(db.Date)
+
     #relation to reviews model
     reviews=db.relationship('Reviews', backref='requests', lazy=True)
+
+    #relation to service model
     service = db.relationship('Services',backref='requests_services', lazy=True)
 
 
@@ -92,10 +95,4 @@ class Reviews(db.Model):
     professional_id = db.Column(db.Integer, db.ForeignKey('professional.id'), nullable=False)
     request_id = db.Column(db.Integer, db.ForeignKey('requests.id'), nullable=False)
 
-
-
-class Transactions(db.Model):
-    __tablename__="transactions"
-    id=db.Column(db.Integer,primary_key=True)
-    # user_id=db.Column(db.String(50),unique=True,nullable=False) fk
 

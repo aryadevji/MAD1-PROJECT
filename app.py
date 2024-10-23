@@ -22,9 +22,19 @@ def create_app():
 
 app=create_app()
 from backend.auth import *
-from backend.professional_routes import *
-from backend.customer_routes import *
-from backend.admin_routes import *
+
+from backend.admin_home import *
+from backend.customer_home import *
+from backend.professional_home import *
+
+from backend.admin_search import *
+from backend.customer_search import *
+from backend.professional_search import *
+
+from backend.admin_summary import *
+from backend.customer_summary import *
+from backend.professional_summary import *
+
 
 if __name__ == '__main__':
     app.run()

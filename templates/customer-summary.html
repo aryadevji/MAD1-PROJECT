@@ -2,7 +2,50 @@
 {% block body %}
 
 
+<div class="container mt-5">
 
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="summary-title">Your Request Status Summary</h2>
+            <canvas id="requestStatusChart" width="200" height="100"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    const labels = {{ labels|tojson }};
+    const data = {{ data|tojson }};
+    
+    const requestStatusCtx = document.getElementById('requestStatusChart').getContext('2d');
+    new Chart(requestStatusCtx, {
+        type: 'bar', 
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Number of Requests',
+                data: data,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)', // Closed Requests
+                    'rgba(255, 206, 86, 0.2)', // Pending Requests
+                    'rgba(255, 99, 132, 0.2)', // Active Requests
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 99, 132, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 
 
 

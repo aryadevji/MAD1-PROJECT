@@ -30,3 +30,9 @@ thead th {
 .searchbox{
     border: 1px solid black;
 }
+
+
+.summary-title{
+    font-weight: 700;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

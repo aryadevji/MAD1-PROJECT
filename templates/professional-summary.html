@@ -1,7 +1,96 @@
 {% extends "professional-dash-base.html" %} {% block title %}Professional-Summary{% endblock %}
 {% block body %}
 
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="summary-title">Ratings Given by Customers</h2>
+            <canvas id="ratingsChart" width="500" height="250"></canvas>
+        </div>
+        <div class="col-md-6">
+            <h2 class="summary-title">Total Requests Summary</h2>
+            <canvas id="requestsChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+</div>
 
+<script>
+    // Chart 1: Ratings Given by Customers
+    const ratingsCounts = {{ rating_counts|tojson }};
+    const ratingsCtx = document.getElementById('ratingsChart').getContext('2d');
+    new Chart(ratingsCtx, {
+        type: 'bar', // You can change this to 'pie' or 'doughnut' if you prefer
+        data: {
+            labels: ['1 Star', '2 Stars', '3 Stars', '4 Stars', '5 Stars'],
+            datasets: [{
+                label: 'Number of Ratings',
+                data: ratingsCounts,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(153, 102, 255, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Chart 2: Total Requests Summary
+    const totalRequests= {{ total_requests }};
+    const totalAccepted={{ total_accepted }};
+    const totalClosed ={{ total_closed }};
+    const totalRejected= {{ total_rejected }};
+    const totalPending= {{ total_pending }};
+    const requestsCtx = document.getElementById('requestsChart').getContext('2d');
+    new Chart(requestsCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Total Requests','Pending Requests', 'Accepted Requests', 'Closed Requests', 'Rejected Requests'],
+            datasets: [{
+                label: 'Number of Requests',
+                data: [totalRequests,totalPending, totalAccepted, totalClosed, totalRejected],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 79, 162, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 79, 162, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(153, 102, 255, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 
 
 {% endblock %}
