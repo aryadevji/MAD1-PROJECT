@@ -44,7 +44,7 @@ class Services(db.Model):
     #relationship to reviews model
     reviews=db.relationship('Reviews', backref='services', lazy=True)
     # Relationship to Requests model
-    requests = db.relationship('Requests', backref='services', lazy=True)
+    requests = db.relationship('Requests', back_populates='service', lazy=True)
     
 
 
@@ -80,7 +80,7 @@ class Requests(db.Model):
     reviews=db.relationship('Reviews', backref='requests', lazy=True)
 
     #relation to service model
-    service = db.relationship('Services',backref='requests_services', lazy=True)
+    service = db.relationship('Services',back_populates='requests', lazy=True)
 
 
 

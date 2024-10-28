@@ -98,7 +98,7 @@
                     {% if service_request.status == 1 %}
                     <tr>
                         <td>{{ service_request.id }}</td>
-                        <td>{{ service_request.services.name }}</td>
+                        <td>{{ service_request.service.name }}</td>
                         <td>{{ service_request.professional.name }}</td>
                         <td>{{ service_request.request_date }}</td>
                         <td>
@@ -222,7 +222,7 @@
                     {% for service_request in service_requests | reverse %}
                     <tr>
                         <td>{{ service_request.id }}</td>
-                        <td>{{ service_request.services.name }}</td>
+                        <td>{{ service_request.service.name }}</td>
                         <td>{{ service_request.professional.name }}</td>
                         <td>{{ service_request.professional.email }}</td>
                         <td>{{ service_request.request_date }}</td>
