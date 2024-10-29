@@ -25,6 +25,7 @@ def admin_search_results():
     all_requests = []
     all_customers = []
     all_professionals = []
+    all_reviews= Reviews.query.all()
 
     if parameter == 'request':
         if query:
@@ -53,7 +54,7 @@ def admin_search_results():
             professionals = Professional.query.all()
             all_professionals.extend(professionals)
 
-    return render_template('admin-search.html', all_professionals=all_professionals, all_customers=all_customers, all_requests=all_requests)
+    return render_template('admin-search.html', all_professionals=all_professionals, all_customers=all_customers, all_requests=all_requests,all_reviews=all_reviews)
 
 
 

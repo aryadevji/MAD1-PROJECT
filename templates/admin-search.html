@@ -40,6 +40,8 @@
                         <th>Assigned Professional</th>
                         <th>Customer Name</th>
                         <th>Status</th>
+                        <th>Reviews (if any)</th>
+                        <th>Ratings (if any)</th>
                     </tr>
 
                 {% elif all_professionals %}
@@ -84,6 +86,12 @@
                                 Closed
                             {% endif %}
                         </td>
+                        {% for reviews in all_reviews %}
+                            {% if reviews.request_id == request.id %}
+                                <td>{{ reviews.review }}</td>
+                                <td>{{ reviews.rating }}</td>
+                            {% endif %}
+                        {% endfor %}
                     </tr>
                     {% endfor %}
 
