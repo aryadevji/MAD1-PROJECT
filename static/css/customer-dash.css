@@ -1,21 +1,22 @@
-.tabletitle{
+.tabletitle {
     font-weight: 600;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .fixtable {
     max-height: 200px;
     overflow-y: auto; /* for vertical scrolling */
+    width: 100%; /* Ensure table fits within the container */
 }
 
 thead th {
-    position: sticky; /*fixing the table head*/
+    position: sticky; /* fixing the table head */
     top: 0;
+    background-color: white; /* Optional: make the header background color visible when sticky */
+    z-index: 1; /* Ensures the header stays on top */
 }
 
-
-
-.view-edit-profile{
+.view-edit-profile {
     display: flex;
     float: right;
     margin-top: 1%;
@@ -27,11 +28,81 @@ thead th {
     border-radius: 10px;
 }
 
-.searchbox{
+/* Search box styling */
+.searchfilter {
     border: 1px solid black;
+    width: 40%;
+    box-sizing: border-box;
 }
 
-.summary-title{
+.searchbox {
+    border: 1px solid black;
+    font-size: 14px;
+    width: 40%;
+    box-sizing: border-box;
+}
+
+.summary-title {
     font-weight: 700;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .tabletitle {
+        font-size: 14px; /* Adjust font size on smaller screens */
+    }
+
+    .fixtable {
+        max-height: 150px; /* Reduce the max height of the table for smaller screens */
+    }
+
+    /* Adjust table header styles for small screens */
+    thead th {
+        font-size: 12px; /* Adjust font size for table headers on smaller screens */
+    }
+
+    /* Adjust search box and filter box width for smaller screens */
+    .searchbox, .searchfilter {
+        width: 100%; /* Full width on smaller screens */
+        margin-bottom: 10px; /* Add space between elements */
+    }
+
+    .view-edit-profile {
+        margin-top: 10px; /* Add more space on small screens */
+        margin-right: 5%; /* Adjust right margin for smaller screens */
+        font-size: 12px; /* Reduce font size */
+    }
+
+    .summary-title {
+        font-size: 16px; /* Reduce font size for summary title on smaller screens */
+    }
+}
+
+/* For very small screens (e.g., mobile phones) */
+@media (max-width: 480px) {
+    .tabletitle {
+        font-size: 12px; /* Further reduce font size on very small screens */
+    }
+
+    .fixtable {
+        max-height: 120px; /* Even more compact on very small screens */
+    }
+
+    thead th {
+        font-size: 10px; /* Further reduce font size for table headers */
+    }
+
+    .searchbox, .searchfilter {
+        width: 100%; /* Full width on mobile devices */
+        font-size: 12px; /* Reduce font size for search inputs */
+    }
+
+    .view-edit-profile {
+        font-size: 10px; /* Further reduce font size for very small screens */
+    }
+
+    .summary-title {
+        font-size: 14px; /* Further reduce font size for summary title */
+    }
 }

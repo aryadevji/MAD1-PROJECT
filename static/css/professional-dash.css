@@ -1,21 +1,31 @@
-.tabletitle{
+/* General Styles */
+.tabletitle {
     font-weight: 600;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: left;
+    padding: 0.5rem;
 }
 
 .fixtable {
     max-height: 200px;
-    overflow-y: auto; /* for vertical scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    margin: 1rem 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 thead th {
-    position: sticky; /*fixing the table head*/
+    position: sticky; /* Fixing the table head */
     top: 0;
+    background-color: #fff;
+    z-index: 2;
+    text-align: left;
+    padding: 0.5rem;
 }
 
-
-
-.view-edit-profile{
+/* View/Edit Profile Button */
+.view-edit-profile {
     display: flex;
     float: right;
     margin-top: 1%;
@@ -25,14 +35,109 @@ thead th {
     padding-left: 3px;
     padding-right: 3px;
     border-radius: 10px;
+    font-size: 14px;
+    text-align: center;
 }
 
-.searchbox{
+/* Search box styling */
+.searchfilter {
+    width: 40%;
     border: 1px solid black;
+    box-sizing: border-box;
 }
 
+.searchbox {
+    border: 1px solid black;
+    font-size: 14px;
+    width: 40%;
+    box-sizing: border-box;
+}
 
-.summary-title{
+.summary-title {
     font-weight: 700;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .fixtable {
+        max-height: 150px;
+    }
+
+    thead th {
+        font-size: 14px;
+        padding: 0.4rem;
+    }
+
+    .view-edit-profile {
+        font-size: 12px;
+        padding: 0.3rem 0.4rem;
+        margin-right: 1%;
+    }
+
+    .summary-title {
+        font-size: 18px;
+    }
+
+    /* Adjusting search box and filter for smaller screens */
+    .searchbox, .searchfilter {
+        width: 100%; /* Full width on smaller screens */
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .fixtable {
+        max-height: 120px;
+    }
+
+    thead th {
+        font-size: 12px;
+        padding: 0.3rem;
+    }
+
+    .view-edit-profile {
+        font-size: 10px;
+        padding: 0.2rem 0.3rem;
+    }
+
+    .summary-title {
+        font-size: 16px;
+    }
+
+    /* Adjusting search box and filter for very small screens */
+    .searchbox, .searchfilter {
+        width: 100%;
+        font-size: 12px;
+    }
+}
+
+/* Adjustments for very small screens (e.g., mobile phones) */
+@media (max-width: 480px) {
+    .tabletitle {
+        font-size: 12px; /* Further reduce font size on very small screens */
+    }
+
+    .fixtable {
+        max-height: 120px; /* Even more compact on very small screens */
+    }
+
+    thead th {
+        font-size: 10px; /* Further reduce font size for table headers */
+    }
+
+    .searchbox, .searchfilter {
+        width: 100%;
+        font-size: 12px; /* Reduce font size for search inputs */
+    }
+
+    .view-edit-profile {
+        font-size: 10px; /* Further reduce font size for very small screens */
+    }
+
+    .summary-title {
+        font-size: 14px; /* Further reduce font size for summary title */
+    }
 }

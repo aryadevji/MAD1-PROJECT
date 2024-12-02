@@ -3,22 +3,35 @@
 
 
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
             <form action="{{ url_for('search_results') }}" method="GET">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control searchbox" id='query' name="query" placeholder="Search..." aria-label="Search" style="border-right: none;">
-                    
-                    <div class="input-group-append" style="display:flex; border-top:1px solid black; border-bottom:1px solid black;">
-                        <select class="btn btn-outline-dark parameter form-select" name='parameter' id='parameter' type="button" aria-expanded="false" style="border-radius: 0%; height:100%; width:125px;  border-top: none; border-bottom: none; border-left: none;" >
-                            <option selected> Filter</option>
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                    <!-- Search Box -->
+                    <input 
+                        type="text" 
+                        class="form-control mb-3 mb-md-0 searchbox flex-fill" 
+                        id="query" 
+                        name="query" 
+                        placeholder="Search..." 
+                        aria-label="Search" >
 
-                            <option value="service"> Service </option>
-                            <option value="price">Price </option>
-                        </select>
+                    <!-- Filter Dropdown -->
+                    <select 
+                        class="form-select mb-3 mb-md-0 searchfilter flex-fill" 
+                        name="parameter" 
+                        id="parameter" 
+                        aria-expanded="false" 
+                        style="border-radius: 6px; height: 100%;">
+                        <option selected>Filter</option>
+                        <option value="service">Service</option>
+                        <option value="price">Price</option>
+                    </select>
 
-                    </div>
-                    <button class="btn btn-outline-dark" type="submit">
+                    <!-- Search Button -->
+                    <button 
+                        class="btn btn-outline-dark searchbutton" 
+                        type="submit">
                         <i class="fas fa-search"></i> Search
                     </button>
                 </div>
@@ -26,6 +39,7 @@
         </div>
     </div>
 </div>
+
 
 
 

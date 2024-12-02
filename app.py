@@ -36,8 +36,8 @@ from backend.customer_summary import *
 from backend.professional_summary import *
 
 
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+#     app.run()
 
 
 

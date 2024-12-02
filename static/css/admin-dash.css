@@ -1,25 +1,82 @@
-.tabletitle{
+.tabletitle {
     font-weight: 600;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .fixtable {
     max-height: 200px;
     overflow-y: auto; /* for vertical scrolling */
+    width: 100%; /* Ensures table fits within container */
 }
 
 thead th {
-    position: sticky; /*fixing the table head*/
+    position: sticky; /* fixing the table head */
     top: 0;
+    background-color: white; /* Optional: make the header background color visible when sticky */
+    z-index: 1; /* Ensures the header stays on top */
 }
 
-
-
-.searchbox{
+/* Search box styling */
+.searchfilter{
     border: 1px solid black;
+    width: 40%;
 }
 
-.summary-title{
+.searchbox {
+    border: 1px solid black;
+    font-size: 14px;
+    width: 40%;   
+}
+
+/* Summary title styling */
+.summary-title {
     font-weight: 700;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .tabletitle {
+        font-size: 14px; /* Adjust font size on smaller screens */
+    }
+
+    .fixtable {
+        max-height: 150px; /* Reduce the max height of the table for smaller screens */
+    }
+
+    /* Adjust table header styles for small screens */
+    thead th {
+        font-size: 12px; /* Adjust font size for table headers on smaller screens */
+    }
+
+    .searchbox {
+        padding: 10px; /* Add some padding for smaller screens */
+    }
+
+    .summary-title {
+        font-size: 16px; /* Reduce font size for summary title on smaller screens */
+    }
+}
+
+/* For very small screens (e.g., mobile phones) */
+@media (max-width: 480px) {
+    .tabletitle {
+        font-size: 12px; /* Further reduce font size on very small screens */
+    }
+
+    .fixtable {
+        max-height: 120px; /* Even more compact on very small screens */
+    }
+
+    thead th {
+        font-size: 10px; /* Further reduce font size for table headers */
+    }
+
+    .searchbox {
+        font-size: 14px; /* Make search box text smaller on small screens */
+    }
+
+    .summary-title {
+        font-size: 14px; /* Further reduce font size for summary title */
+    }
 }

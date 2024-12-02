@@ -1,34 +1,44 @@
 {% extends "professional-dash-base.html" %} {% block title %}Professional-Search{% endblock %}
 {% block body %}
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
             <form action="{{ url_for('professional_search_results') }}" method="GET">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control searchbox" id='query' name="query" placeholder="Search..." aria-label="Search" style="border-right: none;">
-                    
-                    <div class="input-group-append" style="display:flex; border-top:1px solid black; border-bottom:1px solid black;">
-                        <select class="btn btn-outline-dark parameter form-select" name='parameter' onchange="ifdate()" id='parameter' type="button" aria-expanded="false" style="border-radius: 0%; height:100%; width:125px;  border-top: none; border-bottom: none; border-left: none;" >
-                            <option selected> Filter</option>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <!-- Search Box -->
+                <input 
+                    type="text" 
+                    class="form-control mb-3 mb-md-0 searchbox flex-fill" 
+                    id="query" 
+                    name="query" 
+                    placeholder="Search for services..." 
+                    aria-label="Search">
 
-                            <option value="date"> DATE </option>
-                            <option value="pincode">PINCODE </option>
-                            <option value="rating"> RATING </option>
-                        </select>
+                <!-- Filter Dropdown -->
+                <select 
+                    class="form-select mb-3 mb-md-0 searchfilter flex-fill" 
+                    name="parameter" 
+                    id="parameter" 
+                    onchange="ifdate()" 
+                    aria-expanded="false">
+                    <option selected disabled>Filter</option>
+                    <option value="date">DATE</option>
+                    <option value="pincode">PINCODE</option>
+                    <option value="rating">RATING</option>
+                </select>
 
-                    </div>
-                    <button class="btn btn-outline-dark" type="submit">
-                        <i class="fas fa-search"></i> Search
-                    </button>
-                </div>
-            </form>
+                <!-- Search Button -->
+                <button 
+                    class="btn btn-dark searchbutton" 
+                    type="submit">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </form>
         </div>
     </div>
 </div>
-
-
-
 
 
 <div class="container mt-5">

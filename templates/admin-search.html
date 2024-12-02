@@ -3,23 +3,36 @@
 
 
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
             <form action="{{ url_for('admin_search_results') }}" method="GET">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control searchbox" id='query' name="query" placeholder="Search..." aria-label="Search" style="border-right: none;">
-                    
-                    <div class="input-group-append" style="display:flex; border-top:1px solid black; border-bottom:1px solid black;">
-                        <select class="btn btn-outline-dark parameter form-select" name='parameter' id='parameter' type="button" aria-expanded="false" style="border-radius: 0%; height:100%; width:185px;  border-top: none; border-bottom: none; border-left: none;" >
-                            <option selected> Filter</option>
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                    <!-- Search Box -->
+                    <input 
+                        type="text" 
+                        class="form-control mb-3 mb-md-0 searchbox flex-fill" 
+                        id="query" 
+                        name="query" 
+                        placeholder="Search..." 
+                        aria-label="Search" >
 
-                            <option value="request"> Service Requests </option>
-                            <option value="customer"> Customer </option>
-                            <option value="professional"> Professional </option>
-                        </select>
+                    <!-- Filter Dropdown -->
+                    <select 
+                        class="form-select mb-3 mb-md-0 searchfilter flex-fill" 
+                        name="parameter" 
+                        id="parameter" 
+                        aria-expanded="false" 
+                        style="border-radius: 6px; height: 100%;">
+                        <option selected>Filter</option>
+                        <option value="request">Service Requests</option>
+                        <option value="customer">Customer</option>
+                        <option value="professional">Professional</option>
+                    </select>
 
-                    </div>
-                    <button class="btn btn-outline-dark" type="submit">
+                    <!-- Search Button -->
+                    <button 
+                        class="btn btn-outline-dark searchbutton" 
+                        type="submit">
                         <i class="fas fa-search"></i> Search
                     </button>
                 </div>
@@ -27,6 +40,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="container mt-5">
     <h3 class="tabletitle">Search Results</h3>

@@ -1,142 +1,156 @@
-header{
+/* General Styles */
+header {
   display: flex;
   flex-direction: row;
-}
-  
-  .AZ-heading{ display:flex;
-    color: black;
-  
-  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 48px;
-  font-style: normal;
-  font-weight: 850;
-  height: 49px;
-  width: 900px;
-  margin-left: 1%;
-  margin-top: 0.5%;
-  text-align: center;
-  }
-
-  .back{
-    margin-left: 29%;
-    margin-top: 1%;
-  }
-
-.content{
-  display: flex;
-  align-self: center;
-  flex-direction: column;
-  height: 900px;
+  justify-content: space-between;
   align-items: center;
+  padding: 1rem;
 }
 
-
-#register-title{
-  padding-top: 9%;
-  padding-bottom: 4%;
+.AZ-heading {
   display: flex;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 30px;
-  align-self: center;
-  font-weight: 900;
+  color: black;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 48px;
+  font-weight: 850;
+  margin: 0;
+  text-align: center;
 }
 
-#p-register-title{
-  padding-top: 2%;
-  padding-bottom: 3%;
+.back {
+  margin-right: 2%;
+}
+
+.content {
   display: flex;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  flex-direction: column;
+  align-items: center;
+  min-height: 80vh;
+  max-height: 100vh;
+  padding: 2rem 1rem;
+  overflow-y: auto; /* Enable scrolling if necessary */
+}
+
+#register-title, #p-register-title {
+  display: flex;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 30px;
-  align-self: center;
   font-weight: 900;
+  text-align: center;
+  padding: 1rem 0;
 }
 
-.pbigrect{
-    display: flex;
-    width: 39%;
-    height: 100%;
-    border-radius: 2rem;
-    margin-top: 1%;
-    background-color: #ffffff;
-    flex-direction: column;
-  }
-
-  .cbigrect{
-    display: flex;
-    width: 40%;
-    height: 95%;
-    border-radius: 2rem;
-    margin-top: 1%;
-    background-color: #ffffff;
-    flex-direction: column;
-  }
-
-.form{
-    height: 75%;
-    width: 100%;
+.pbigrect, .cbigrect {
+  display: flex;
+  width: 40%;
+  max-width: 100%;
+  border-radius: 2rem;
+  background-color: #ffffff;
+  flex-direction: column;
+  padding: 2rem;
+  margin: 1rem auto;
+  box-sizing: border-box; /* Prevent overflow from padding */
 }
 
-.pform{
-  height: 90%;
+.form, .pform {
   width: 100%;
 }
 
-  .lable{
-    font-size: 22px;
-    font-weight: 600;
-  }
-
-  .plable{
-    font-size: 18px;
-    font-weight: 600;
-  }
-
-  .COL{
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    padding-left: 10%;
-    width: 90%;
-
-  }
-  
-  .COL2{
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    padding-left: 10%;
-    width: 90%;
-
-  }
-
-.input{
-    font-size: 20px;
-    border-top-color: transparent;
-    border-left-color: transparent;
-    border-right-color: transparent;
+.lable, .plable {
+  font-size: 18px;
+  font-weight: 600;
 }
 
-.pinput{
-  font-size: 15px;
-  border-top-color: transparent;
-  border-left-color: transparent;
-  border-right-color: transparent;
-}
-
-.p-register-button{
-    width: 80%;
-    margin-top: 1%;
-    margin-left: 10%;
-    align-self: center;
-}
-
-.register-button{
-  width: 80%;
-  margin-top: 4%;
-  margin-left: 10%;
+.COL, .COL2 {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  padding: 1rem;
   align-self: center;
 }
 
-.alert-mes{
-  margin-top: 1%;
+.input, .pinput {
+  font-size: 18px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.register-button, .p-register-button {
+  width: 80%;
+  margin: 1rem auto;
+}
+
+.alert-mes {
+  margin-top: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .AZ-heading {
+    font-size: 36px;
+    text-align: center;
+  }
+
+  .back {
+    font-size: 0.9rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .pbigrect, .cbigrect {
+    width: 90%;
+    padding: 1rem;
+  }
+
+  .register-button, .p-register-button {
+    width: 100%;
+  }
+
+  #register-title, #p-register-title {
+    font-size: 24px;
+  }
+
+  .lable, .plable {
+    font-size: 16px;
+  }
+
+  .input, .pinput {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .AZ-heading {
+    font-size: 28px;
+    margin: 0 auto;
+  }
+
+  .back {
+    font-size: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  #register-title, #p-register-title {
+    font-size: 20px;
+  }
+
+  .lable, .plable {
+    font-size: 14px;
+  }
+
+  .input, .pinput {
+    font-size: 14px;
+  }
+
+  .pbigrect, .cbigrect {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .content {
+    padding: 1rem;
+    max-height: calc(100vh - 120px); /* Adjust based on header/footer */
+  }
 }
