@@ -21,6 +21,7 @@ def create_app():
     return service_app
 
 app=create_app()
+import init_db
 from backend.auth import *
 
 from backend.admin_home import *
@@ -36,8 +37,8 @@ from backend.customer_summary import *
 from backend.professional_summary import *
 
 
-# if __name__ == '__main__':
-#     app.run()
+if __name__ == '__main__':
+    app.run()
 
 
 
